@@ -14,7 +14,7 @@ This is the complete website for 2ngTDE, a premium clothing marketplace.
 ## Installation
 
 1. Clone this repository
-2. Navigate to the project directory: cd 2ngTDE
+2. Navigate to the project directory: cd 2ngTDE-website
 3. Install dependencies: npm install
 
 ## Running the Application
@@ -23,4 +23,5 @@ This is the complete website for 2ngTDE, a premium clothing marketplace.
 
 Run both frontend and backend:
 ```bash
-npm start
+npm start# 2ngTDE
+# 2ngTDE
