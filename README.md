@@ -23,4 +23,4 @@ This is the complete website for 2ngTDE, a premium clothing marketplace.
 
 Run both frontend and backend:
 ```bash
-npm start
+npm start# 2ngTDE
