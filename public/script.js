@@ -172,3 +172,26 @@ document.addEventListener('DOMContentLoaded', () => {
     initGoldHover();
   }
 });
+
+// ====================  
+// 3D PRODUCT TILT  
+// ====================  
+function init3DEffect() {
+  // Only load on desktop (optional)
+  if (window.innerWidth > 768) {
+    const tiltScript = document.createElement('script');
+    tiltScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js';
+    tiltScript.onload = () => {
+      VanillaTilt.init(document.querySelectorAll(".product-card"), {
+        max: 5,          // Tilt angle
+        speed: 300,      // Animation speed
+        glare: true,     // Adds light reflection
+        "max-glare": 0.2 // Glare intensity
+      });
+    };
+    document.body.appendChild(tiltScript);
+  }
+}
+
+// Call it after page loads
+window.addEventListener('load', init3DEffect);
