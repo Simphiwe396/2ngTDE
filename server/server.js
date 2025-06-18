@@ -1,21 +1,30 @@
+// Replace your entire server.js with this:
 const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Serve static files
+// Middleware
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.json());
 
-// Admin routes (working logins)
-const admins = [
-    { username: "beauty", password: "ceo123", role: "ceo" },
-    // ... All other admins
-];
-
-app.post('/api/admin/login', (req, res) => {
-    // Working auth logic
+// Routes
+app.get('/api/products', (req, res) => {
+  res.json([
+    {
+      id: 1,
+      name: "Premium T-Shirt",
+      price: 249.99
+    }
+  ]);
 });
 
+// Handle all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`); // Backticks verified
+  console.log(Server running on port ${PORT});
 });
