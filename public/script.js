@@ -134,3 +134,41 @@ document.addEventListener('DOMContentLoaded', () => {
         addBotMessage("Hello! I'm your 2ngTDE assistant. How can I help?");
     }, 1500);
 });
+
+// ====================  
+// LUXURY ANIMATIONS  
+// ====================  
+// Fade-in products on scroll  
+function animateProducts() {
+  const productCards = document.querySelectorAll('.product-card');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  productCards.forEach(card => observer.observe(card));
+}
+
+// Gold button hover effects  
+function initGoldHover() {
+  document.querySelectorAll('.admin-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      btn.style.boxShadow = '0 4px 15px rgba(212, 175, 55, 0.4)';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.boxShadow = 'none';
+    });
+  });
+}
+
+// Initialize when page loads  
+document.addEventListener('DOMContentLoaded', () => {
+  animateProducts();
+  if (window.location.pathname.includes('/admin')) {
+    initGoldHover();
+  }
+});
