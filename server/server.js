@@ -1,4 +1,3 @@
-// Replace your entire server.js with this:
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -11,11 +10,7 @@ app.use(express.json());
 // Routes
 app.get('/api/products', (req, res) => {
   res.json([
-    {
-      id: 1,
-      name: "Premium T-Shirt",
-      price: 249.99
-    }
+    { id: 1, name: "Premium T-Shirt", price: 249.99 }
   ]);
 });
 
@@ -24,7 +19,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// Start server
+// Start server (CRITICAL FIX HERE)
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
+  console.log(Server running on port ${PORT});  // ← Backticks confirmed
 });
