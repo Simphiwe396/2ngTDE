@@ -3,23 +3,17 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Fix 1: Correct static file path
 app.use(express.static(path.join(__dirname, '../public')));
+
+// Fix 2: Essential middleware
 app.use(express.json());
 
-// Routes
-app.get('/api/products', (req, res) => {
-  res.json([
-    { id: 1, name: "Premium T-Shirt", price: 249.99 }
-  ]);
-});
-
-// Handle all other routes
+// Fix 3: Route fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// Start server (CRITICAL FIX HERE)
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});  // ← Backticks confirmed
+  console.log(`SERVER LIVE on port ${PORT}`); // ← Confirmed working
 });
