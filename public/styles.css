@@ -33,6 +33,23 @@ body {
     padding: 0 15px;
 }
 
+/* 3D Card Container */
+.product-card {
+  transform-style: preserve-3d;
+  transition: transform 0.5s, box-shadow 0.3s;
+}
+
+/* Glare Overlay Fix */
+.tilt-glare {
+  border-radius: 10px !important; /* Match your card radius */
+}
+
+/* Depth Effect */
+.product-card:hover {
+  transform: translateZ(10px);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
 /* ==================== */
 /* GOLD ACCENT THEME */
 /* ==================== */
