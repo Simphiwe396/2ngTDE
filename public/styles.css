@@ -33,6 +33,46 @@ body {
     padding: 0 15px;
 }
 
+/* ==================== */
+/* GOLD ACCENT THEME */
+/* ==================== */
+:root {
+  --gold: #d4af37;
+  --gold-light: #f5e6c8;
+  --gold-dark: #996515;
+}
+
+/* Gold buttons (admin only) */
+.admin-btn {
+  background: none;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  transition: all 0.4s ease;
+}
+
+.admin-btn:hover {
+  background: var(--gold);
+  color: #111;
+  transform: translateY(-2px);
+}
+
+/* Gold highlights */
+.admin-panel {
+  border-left: 4px solid var(--gold);
+}
+
+/* Smooth fade-in for products */
+.product-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.product-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .btn {
     display: inline-block;
     background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
