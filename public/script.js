@@ -17,8 +17,7 @@ const products = [
         image: "images/products/jeans.jpg",
         rating: 4.2,
         badge: "New"
-    },
-    // Add other products as needed
+    }
 ];
 
 let cart = [];
@@ -32,7 +31,7 @@ function addToCart(productId) {
     
     cart.push(product);
     updateCartCount();
-    showAlert(${product.name} added to cart!);
+    showAlert(`${product.name} added to cart!`);  // Fixed: Added backticks
 }
 
 function updateCartCount() {
@@ -71,7 +70,7 @@ function addUserMessage(text) {
     const messagesDiv = document.querySelector('.chatbot-messages');
     const messageDiv = document.createElement('div');
     messageDiv.className = 'user-message';
-    messageDiv.innerHTML = <p>${text}</p>;
+    messageDiv.innerHTML = `<p>${text}</p>`;  // Fixed: Added backticks
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
@@ -80,7 +79,7 @@ function addBotMessage(text) {
     const messagesDiv = document.querySelector('.chatbot-messages');
     const messageDiv = document.createElement('div');
     messageDiv.className = 'bot-message';
-    messageDiv.innerHTML = <p>${text}</p>;
+    messageDiv.innerHTML = `<p>${text}</p>`;  // Fixed: Added backticks
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
@@ -93,7 +92,6 @@ function sendMessage() {
     addUserMessage(message);
     input.value = '';
     
-    // Bot responses
     setTimeout(() => {
         if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
             addBotMessage("Hello! How can I help with your 2ngTDE order today?");
@@ -109,10 +107,8 @@ function sendMessage() {
 // INITIAL SETUP
 // ====================
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize cart
     updateCartCount();
     
-    // Load products
     const productGrid = document.querySelector('.product-grid');
     if (productGrid) {
         products.forEach(product => {
@@ -120,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productGrid.innerHTML += `
                 <div class="product-card">
                     <div class="product-image">
-                        ${product.badge ? <span class="product-badge">${product.badge}</span> : ''}
+                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                         <img src="${product.image}" alt="${product.name}">
                     </div>
                     <div class="product-info">
@@ -134,15 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initialize chatbot with first message
     setTimeout(() => {
         addBotMessage("Hello! I'm your 2ngTDE assistant. How can I help?");
     }, 1500);
 });
-
-// ====================
-// ADMIN FUNCTIONALITY
-// ====================
-function adminLogin() {
-    // Your existing admin login logic
-}
