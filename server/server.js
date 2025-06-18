@@ -1,40 +1,40 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Critical middleware
-app.use(express.static(path.join(__dirname, '../public')));
+// Middleware
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Products API (Fixed Route)
+// Test Route
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', time: new Date() });
+});
+
+// Products Route (Essential)
 app.get('/api/products', (req, res) => {
   res.json([
     {
       id: 1,
       name: "Premium T-Shirt",
       price: 249.99,
-      image: "images/products/tshirt.jpg",
-      rating: 4.5
-    },
-    {
-      id: 2,
-      name: "Designer Jeans", 
-      price: 599.99,
-      image: "images/products/jeans.jpg",
-      rating: 4.2
+      image: "/images/products/tshirt.jpg" // ← Note the forward slash
     }
   ]);
 });
 
-// Fallback route (Must be last)
+// Fallback Route (Must be last)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// Error-handled server start
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-}).on('error', (err) => {
-  console.error('Server failed:', err);
+// Error-Handled Server Start
+const server = app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
+
+server.on('error', (err) => {
+  console.error('💥 Server crashed:', err);
 });
