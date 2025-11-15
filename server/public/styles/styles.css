@@ -1,3 +1,8 @@
+/* CSS Test - Remove this after verification */
+body {
+    background-color: #f0f8ff !important;
+}
+
 /* About Page Styles */
 .about-hero {
     background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);

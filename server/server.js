@@ -4,8 +4,14 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Middleware
+// Middleware - Serve static files from public folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Additional explicit routes for CSS and JS
+app.use('/styles', express.static(path.join(__dirname, 'public', 'styles')));
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+app.use('/scripts', express.static(path.join(__dirname, 'public', 'scripts')));
+
 app.use(express.json());
 
 // Data files
@@ -20,21 +26,57 @@ const SUBSCRIBERS_FILE = path.join(__dirname, 'subscribers.json');
     }
 });
 
-// Products data (enhanced with more details)
+// Products data
 const products = [
     {
         id: 1,
         name: "Midnight Rose",
-        description: "Luxurious floral fragrance with rose and musk notes that captivate the senses",
+        description: "Luxurious floral fragrance with rose and musk notes",
         price: 89.99,
-        image: "/images/perfume1.jpg",
+        image: "images/perfume1.jpg",
         category: "perfume",
-        details: "A sophisticated blend of Bulgarian rose, white musk, and sandalwood. Perfect for evening events and special occasions.",
-        ingredients: ["Bulgarian Rose", "White Musk", "Sandalwood", "Vanilla"],
-        size: "100ml",
         featured: true
     },
-    // ... more products with enhanced details
+    {
+        id: 2,
+        name: "Ocean Breeze", 
+        description: "Fresh aquatic scent with citrus undertones",
+        price: 75.50,
+        image: "images/perfume2.jpg",
+        category: "perfume"
+    },
+    {
+        id: 3,
+        name: "Silk Elegance Dress",
+        description: "Handcrafted silk dress for special occasions",
+        price: 149.99,
+        image: "images/clothing1.jpg",
+        category: "clothing"
+    },
+    {
+        id: 4,
+        name: "Vanilla Dream",
+        description: "Warm vanilla and amber fragrance", 
+        price: 82.00,
+        image: "images/perfume3.jpg",
+        category: "perfume"
+    },
+    {
+        id: 5,
+        name: "Cashmere Blazer",
+        description: "Premium cashmere blazer for sophisticated style",
+        price: 199.99,
+        image: "images/clothing2.jpg", 
+        category: "clothing"
+    },
+    {
+        id: 6,
+        name: "Citrus Zest",
+        description: "Energetic citrus fragrance for everyday wear",
+        price: 65.00,
+        image: "images/perfume4.jpg",
+        category: "perfume"
+    }
 ];
 
 // API Routes
@@ -42,21 +84,38 @@ app.get('/api/products', (req, res) => {
     res.json(products);
 });
 
-app.get('/api/products/:id', (req, res) => {
-    const product = products.find(p => p.id == req.params.id);
-    if (product) {
-        res.json(product);
-    } else {
-        res.status(404).json({ error: 'Product not found' });
-    }
+app.post('/api/orders', (req, res) => {
+    const { customer, email, phone, address, items, total } = req.body;
+    
+    const orders = JSON.parse(fs.readFileSync(ORDERS_FILE));
+    const newOrder = {
+        id: Date.now(),
+        customer,
+        email, 
+        phone,
+        address,
+        items,
+        total,
+        status: 'pending',
+        date: new Date().toLocaleString()
+    };
+    
+    orders.push(newOrder);
+    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2));
+    
+    res.json({ 
+        success: true, 
+        orderId: newOrder.id,
+        message: 'Order placed successfully!'
+    });
 });
 
-app.get('/api/featured', (req, res) => {
-    const featured = products.filter(p => p.featured);
-    res.json(featured);
+app.get('/api/orders', (req, res) => {
+    const orders = JSON.parse(fs.readFileSync(ORDERS_FILE));
+    res.json(orders);
 });
 
-// Contact form submission
+// Contact form
 app.post('/api/contact', (req, res) => {
     const { name, email, message } = req.body;
     
@@ -65,9 +124,8 @@ app.post('/api/contact', (req, res) => {
         id: Date.now(),
         name,
         email,
-        message,
-        date: new Date().toLocaleString(),
-        read: false
+        message, 
+        date: new Date().toLocaleString()
     };
     
     messages.push(newMessage);
@@ -76,23 +134,20 @@ app.post('/api/contact', (req, res) => {
     res.json({ success: true, message: 'Message sent successfully!' });
 });
 
-// Newsletter subscription
+// Newsletter
 app.post('/api/subscribe', (req, res) => {
     const { email } = req.body;
     
     const subscribers = JSON.parse(fs.readFileSync(SUBSCRIBERS_FILE));
     
     if (subscribers.find(s => s.email === email)) {
-        return res.json({ success: false, message: 'Email already subscribed' });
+        return res.json({ success: false, message: 'Already subscribed' });
     }
     
-    subscribers.push({
-        email,
-        date: new Date().toLocaleString()
-    });
-    
+    subscribers.push({ email, date: new Date().toLocaleString() });
     fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2));
-    res.json({ success: true, message: 'Successfully subscribed!' });
+    
+    res.json({ success: true, message: 'Subscribed successfully!' });
 });
 
 // Serve pages
@@ -108,10 +163,7 @@ app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'contact.html'));
 });
 
-app.get('/product/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'product-detail.html'));
-});
-
 app.listen(PORT, () => {
-    console.log(`🛍️  CLINCH Enhanced E-commerce running on port ${PORT}`);
+    console.log(`🚀 CLINCH Website running on port ${PORT}`);
+    console.log(`👉 Visit: https://twongtde-p9ng.onrender.com`);
 });
