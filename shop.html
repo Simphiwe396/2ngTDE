@@ -10,7 +10,7 @@
 <body>
     <!-- Header -->
     <section id="header">
-        <a href="#"><img src="images/logo.png" class="logo" alt="CLINCH Logo"></a>
+        <a href="#" class="logo">✨ CLINCH</a>
         <div>
             <ul id="navbar">
                 <li><a href="index.html">Home</a></li>
@@ -45,7 +45,7 @@
     <section id="pagination" class="section-p1">
         <a href="#">1</a>
         <a href="#">2</a>
-        <a href="#"><i class="fal fa-long-arrow-alt-right"></i></a>
+        <a href="#"><i class="fas fa-long-arrow-alt-right"></i></a>
     </section>
 
     <!-- Newsletter -->
@@ -63,7 +63,7 @@
     <!-- Footer -->
     <footer class="section-p1">
         <div class="col">
-            <img class="logo" src="images/logo.png" alt="CLINCH Logo">
+            <a href="#" class="logo">✨ CLINCH</a>
             <h4>Contact</h4>
             <p><strong>Address:</strong> 123 Luxury Street, Pretoria, South Africa</p>
             <p><strong>Phone:</strong> +27 12 345 6789</p>
@@ -101,12 +101,21 @@
         <div class="col install">
             <h4>Install App</h4>
             <p>From App Store or Google Play</p>
-            <div class="row">
-                <img src="images/pay/app.jpg" alt="App Store">
-                <img src="images/pay/play.jpg" alt="Google Play">
+            <div class="install-apps">
+                <a href="#" class="app-store">
+                    <i class="fab fa-apple"></i> App Store
+                </a>
+                <a href="#" class="play-store">
+                    <i class="fab fa-google-play"></i> Google Play
+                </a>
             </div>
             <p>Secured Payment Gateways</p>
-            <img src="images/pay/pay.png" alt="Payment Methods">
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-apple-pay"></i>
+            </div>
         </div>
 
         <div class="copyright">
@@ -132,7 +141,9 @@
             
             container.innerHTML = products.map(product => `
                 <div class="pro" onclick="window.location.href='sproduct?id=${product.id}'">
-                    <img src="${product.image || 'images/perfume1.jpg'}" alt="${product.name}">
+                    <div class="product-image">
+                        <i class="fas fa-wine-bottle"></i>
+                    </div>
                     <div class="des">
                         <span>${product.category}</span>
                         <h5>${product.name}</h5>
