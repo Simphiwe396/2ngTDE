@@ -4,283 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLINCH - Luxury Fragrances | Premium Perfumes</title>
-    <meta name="description" content="Discover CLINCH luxury fragrances. Premium perfumes crafted for the modern individual with elegant scents and sophisticated packaging.">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">✨</span>
-                CLINCH
-            </div>
-            <div class="nav-links">
-                <a href="#home" class="nav-link active">Home</a>
-                <a href="#collections" class="nav-link">Collections</a>
-                <a href="#products" class="nav-link">Shop</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#cart" class="cart-btn nav-link">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">0</span>
-                </a>
-            </div>
-            <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </div>
+    <!-- Header -->
+    <section id="header">
+        <a href="#"><img src="images/logo.png" class="logo" alt="CLINCH Logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a class="active" href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="fas fa-shopping-bag"></i></a></li>
+                <a href="#" id="close"><i class="fas fa-times"></i></a>
+            </ul>
         </div>
-    </nav>
+        <div id="mobile">
+            <a href="cart.html"><i class="fas fa-shopping-bag"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="particles"></div>
+    <section id="hero">
+        <h4>Limited Edition Collection</h4>
+        <h2>Elegant Fragrances</h2>
+        <h1>Redefined Luxury</h1>
+        <p>Discover luxury scents crafted for the modern individual</p>
+        <button class="normal" onclick="window.location.href='shop.html'">Explore Now</button>
+    </section>
+
+    <!-- Feature Section -->
+    <section id="feature" class="section-p1">
+        <div class="fe-box">
+            <img src="images/free-shipping.png" alt="Free Shipping">
+            <h6>Free Shipping</h6>
         </div>
-        <div class="hero-content">
-            <div class="hero-badge">Limited Edition</div>
-            <h1 class="hero-title">
-                <span class="gradient-text">Elegant Fragrances</span>
-                <br>Redefined
-            </h1>
-            <p class="hero-subtitle">Discover luxury scents crafted for the modern individual. Experience the art of perfumery with CLINCH.</p>
-            <div class="hero-buttons">
-                <button class="cta-btn primary" onclick="scrollToProducts()">
-                    <span>Explore Collection</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="cta-btn secondary" onclick="location.href='#collections'">
-                    <span>View Limited Editions</span>
-                </button>
-            </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <div class="stat-number">50K+</div>
-                    <div class="stat-label">Happy Customers</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">120+</div>
-                    <div class="stat-label">Unique Scents</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Countries</div>
-                </div>
-            </div>
+        <div class="fe-box">
+            <img src="images/online-order.png" alt="Online Order">
+            <h6>Online Order</h6>
         </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
+        <div class="fe-box">
+            <img src="images/save-money.png" alt="Save Money">
+            <h6>Save Money</h6>
+        </div>
+        <div class="fe-box">
+            <img src="images/promotions.png" alt="Promotions">
+            <h6>Promotions</h6>
+        </div>
+        <div class="fe-box">
+            <img src="images/happy-sell.png" alt="Happy Sell">
+            <h6>Happy Sell</h6>
+        </div>
+        <div class="fe-box">
+            <img src="images/support.png" alt="24/7 Support">
+            <h6>24/7 Support</h6>
         </div>
     </section>
 
-    <!-- Featured Collections -->
-    <section id="collections" class="collections">
-        <div class="container">
-            <div class="section-header">
-                <h2>Curated Collections</h2>
-                <p>Explore our carefully crafted fragrance families</p>
-            </div>
-            <div class="collections-grid">
-                <div class="collection-card" onclick="location.href='collections.html?type=floral'">
-                    <div class="collection-image floral">
-                        <i class="fas fa-rose"></i>
-                    </div>
-                    <h3>Floral Elegance</h3>
-                    <p>Romantic and delicate floral compositions</p>
-                    <span class="collection-count">12 Scents</span>
-                </div>
-                <div class="collection-card" onclick="location.href='collections.html?type=woody'">
-                    <div class="collection-image woody">
-                        <i class="fas fa-tree"></i>
-                    </div>
-                    <h3>Woody Notes</h3>
-                    <p>Rich and earthy forest-inspired fragrances</p>
-                    <span class="collection-count">8 Scents</span>
-                </div>
-                <div class="collection-card" onclick="location.href='collections.html?type=citrus'">
-                    <div class="collection-image citrus">
-                        <i class="fas fa-lemon"></i>
-                    </div>
-                    <h3>Citrus Fresh</h3>
-                    <p>Vibrant and energizing citrus blends</p>
-                    <span class="collection-count">10 Scents</span>
-                </div>
-                <div class="collection-card" onclick="location.href='collections.html?type=oriental'">
-                    <div class="collection-image oriental">
-                        <i class="fas fa-gem"></i>
-                    </div>
-                    <h3>Oriental Luxe</h3>
-                    <p>Exotic and spicy oriental compositions</p>
-                    <span class="collection-count">15 Scents</span>
-                </div>
-            </div>
+    <!-- Featured Products -->
+    <section id="product1" class="section-p1">
+        <h2>Featured Products</h2>
+        <p>Summer Collection New Modern Design</p>
+        <div class="pro-container" id="featured-products">
+            <!-- Products loaded by JavaScript -->
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section id="products" class="products">
-        <div class="container">
-            <div class="section-header">
-                <h2>Best Sellers</h2>
-                <p>Our most loved fragrances</p>
-            </div>
-            <div class="products-grid" id="products-grid">
-                <!-- Products loaded by JavaScript -->
-            </div>
-            <div class="view-all">
-                <button class="view-all-btn" onclick="location.href='collections.html'">
-                    View All Products
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
+    <!-- Banner -->
+    <section id="banner" class="section-m1">
+        <h4>Repair Services</h4>
+        <h2>Up to <span>70% Off</span> - All Perfumes & Accessories</h2>
+        <button class="normal">Explore More</button>
+    </section>
+
+    <!-- New Arrivals -->
+    <section id="product1" class="section-p1">
+        <h2>New Arrivals</h2>
+        <p>Latest Luxury Fragrances</p>
+        <div class="pro-container" id="new-arrivals">
+            <!-- Products loaded by JavaScript -->
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Premium Quality</h3>
-                    <p>Only the finest ingredients sourced from around the world</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h3>Free Shipping</h3>
-                    <p>Complimentary delivery on all orders over $100</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-undo"></i>
-                    </div>
-                    <h3>Easy Returns</h3>
-                    <p>30-day hassle-free return policy</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>Expert Support</h3>
-                    <p>Fragrance experts available to help you choose</p>
-                </div>
-            </div>
+    <!-- Newsletter -->
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Your email address">
+            <button class="normal">Sign Up</button>
         </div>
     </section>
-
-    <!-- Cart Sidebar -->
-    <div id="cart" class="cart-sidebar">
-        <div class="cart-header">
-            <h3>Your Cart</h3>
-            <button class="close-cart" onclick="closeCart()">×</button>
-        </div>
-        <div class="cart-items" id="cart-items">
-            <div class="empty-cart" id="empty-cart">
-                <i class="fas fa-shopping-bag"></i>
-                <p>Your cart is empty</p>
-            </div>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                Total: $<span id="cart-total">0.00</span>
-            </div>
-            <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
-        </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Checkout</h2>
-                <button class="close-modal" onclick="closeCheckout()">×</button>
-            </div>
-            <form id="checkout-form">
-                <div class="form-section">
-                    <h4>Personal Information</h4>
-                    <div class="form-grid">
-                        <input type="text" placeholder="First Name" required>
-                        <input type="text" placeholder="Last Name" required>
-                    </div>
-                    <input type="email" placeholder="Email Address" required>
-                    <input type="tel" placeholder="Phone Number" required>
-                </div>
-                
-                <div class="form-section">
-                    <h4>Shipping Address</h4>
-                    <textarea placeholder="Full Address" required></textarea>
-                    <div class="form-grid">
-                        <input type="text" placeholder="City" required>
-                        <input type="text" placeholder="Postal Code" required>
-                    </div>
-                    <input type="text" placeholder="Country" required>
-                </div>
-
-                <div class="order-summary">
-                    <h4>Order Summary</h4>
-                    <div id="order-items"></div>
-                    <div class="total-line">
-                        <span>Total:</span>
-                        <span>$<span id="order-total">0.00</span></span>
-                    </div>
-                </div>
-                
-                <button type="submit" class="submit-order-btn">
-                    <i class="fas fa-lock"></i>
-                    Place Secure Order
-                </button>
-            </form>
-        </div>
-    </div>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="logo">
-                        <span class="logo-icon">✨</span>
-                        CLINCH
-                    </div>
-                    <p>Crafting luxury fragrances for the modern individual since 2024.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-pinterest"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Shop</h4>
-                    <a href="#products">All Fragrances</a>
-                    <a href="#collections">Collections</a>
-                    <a href="#">New Arrivals</a>
-                    <a href="#">Best Sellers</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Shipping Info</a>
-                    <a href="#">Returns</a>
-                    <a href="#">FAQ</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Newsletter</h4>
-                    <p>Subscribe for exclusive offers and fragrance tips</p>
-                    <div class="newsletter">
-                        <input type="email" placeholder="Your email address">
-                        <button type="submit"><i class="fas fa-arrow-right"></i></button>
-                    </div>
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="images/logo.png" alt="CLINCH Logo">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> 123 Luxury Street, Pretoria, South Africa</p>
+            <p><strong>Phone:</strong> +27 12 345 6789</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow Us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 CLINCH. All rights reserved. | Crafted with <i class="fas fa-heart"></i> for fragrance lovers</p>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="images/app.jpg" alt="App Store">
+                <img src="images/play.jpg" alt="Google Play">
             </div>
+            <p>Secured Payment Gateways</p>
+            <img src="images/pay.png" alt="Payment Methods">
+        </div>
+
+        <div class="copyright">
+            <p>© 2024 CLINCH. All Rights Reserved</p>
         </div>
     </footer>
 

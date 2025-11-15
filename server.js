@@ -1,103 +1,215 @@
 const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Serve static files from root directory
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 app.use(express.static(__dirname));
 app.use(express.json());
 
-// API routes
+// Database setup
+const db = new sqlite3.Database(':memory:'); // Using in-memory DB for simplicity
+
+// Initialize database
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id TEXT UNIQUE,
+    customer_name TEXT,
+    email TEXT,
+    phone TEXT,
+    address TEXT,
+    items TEXT,
+    total_amount REAL,
+    status TEXT DEFAULT 'pending',
+    payment_method TEXT,
+    payment_status TEXT DEFAULT 'pending',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`);
+});
+
+// Products data
+const products = [
+  {
+    id: 1,
+    name: "Midnight Rose",
+    price: 89.99,
+    description: "Luxurious floral fragrance with notes of Bulgarian rose",
+    category: "Floral",
+    image: "images/perfume1.jpg",
+    features: ["Long-lasting", "Evening wear", "Romantic"]
+  },
+  {
+    id: 2,
+    name: "Ocean Breeze",
+    price: 75.50,
+    description: "Fresh aquatic scent inspired by coastal waves",
+    category: "Aquatic", 
+    image: "images/perfume2.jpg",
+    features: ["Refreshing", "Day wear", "Summer scent"]
+  },
+  {
+    id: 3,
+    name: "Vanilla Dream", 
+    price: 82.00,
+    description: "Warm vanilla fragrance with hints of amber",
+    category: "Oriental",
+    image: "images/perfume3.jpg",
+    features: ["Warm", "Comforting", "All-season"]
+  },
+  {
+    id: 4,
+    name: "Citrus Zest",
+    price: 65.00,
+    description: "Energetic citrus scent with bergamot and lemon",
+    category: "Citrus",
+    image: "images/perfume4.jpg",
+    features: ["Energizing", "Morning wear", "Unisex"]
+  },
+  {
+    id: 5,
+    name: "Noir Essence",
+    price: 120.00,
+    description: "Mysterious blend of oud, leather and smoky notes",
+    category: "Woody",
+    image: "images/perfume5.jpg",
+    features: ["Mysterious", "Evening wear", "Luxury"]
+  },
+  {
+    id: 6,
+    name: "Royal Amber",
+    price: 95.00,
+    description: "Rich amber fragrance with spices and precious woods",
+    category: "Oriental", 
+    image: "images/perfume6.jpg",
+    features: ["Royal", "Winter scent", "Elegant"]
+  }
+];
+
+// API Routes
 app.get('/api/products', (req, res) => {
-    const products = [
-        {
-            id: 1,
-            name: "Midnight Rose",
-            price: 89.99,
-            description: "Luxurious floral fragrance with notes of Bulgarian rose, jasmine, and vanilla",
-            category: "Floral",
-            images: ["midnight-rose-1.jpg", "midnight-rose-2.jpg"],
-            features: ["Long-lasting", "Evening wear", "Romantic"]
-        },
-        {
-            id: 2,
-            name: "Ocean Breeze",
-            price: 75.50,
-            description: "Fresh aquatic scent inspired by coastal waves and sea salt",
-            category: "Aquatic",
-            images: ["ocean-breeze-1.jpg", "ocean-breeze-2.jpg"],
-            features: ["Refreshing", "Day wear", "Summer scent"]
-        },
-        {
-            id: 3,
-            name: "Vanilla Dream",
-            price: 82.00,
-            description: "Warm vanilla fragrance with hints of amber and tonka bean",
-            category: "Oriental",
-            images: ["vanilla-dream-1.jpg", "vanilla-dream-2.jpg"],
-            features: ["Warm", "Comforting", "All-season"]
-        },
-        {
-            id: 4,
-            name: "Citrus Zest",
-            price: 65.00,
-            description: "Energetic citrus scent with bergamot, lemon, and grapefruit",
-            category: "Citrus",
-            images: ["citrus-zest-1.jpg", "citrus-zest-2.jpg"],
-            features: ["Energizing", "Morning wear", "Unisex"]
-        },
-        {
-            id: 5,
-            name: "Noir Essence",
-            price: 120.00,
-            description: "Mysterious blend of oud, leather, and smoky notes",
-            category: "Woody",
-            images: ["noir-essence-1.jpg", "noir-essence-2.jpg"],
-            features: ["Mysterious", "Evening wear", "Luxury"]
-        },
-        {
-            id: 6,
-            name: "Royal Amber",
-            price: 95.00,
-            description: "Rich amber fragrance with spices and precious woods",
-            category: "Oriental",
-            images: ["royal-amber-1.jpg", "royal-amber-2.jpg"],
-            features: ["Royal", "Winter scent", "Elegant"]
-        }
-    ];
-    res.json(products);
+  res.json(products);
+});
+
+app.get('/api/product/:id', (req, res) => {
+  const productId = parseInt(req.params.id);
+  const product = products.find(p => p.id === productId);
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404).json({ error: 'Product not found' });
+  }
+});
+
+// Order management
+app.post('/api/orders', (req, res) => {
+  const { customer_name, email, phone, address, items, total_amount, payment_method } = req.body;
+  const order_id = 'CLINCH-' + Date.now();
+  
+  const stmt = db.prepare(`INSERT INTO orders 
+    (order_id, customer_name, email, phone, address, items, total_amount, payment_method) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`);
+  
+  stmt.run([
+    order_id, 
+    customer_name, 
+    email, 
+    phone, 
+    address, 
+    JSON.stringify(items), 
+    total_amount, 
+    payment_method
+  ], function(err) {
+    if (err) {
+      res.status(500).json({ error: 'Failed to create order' });
+    } else {
+      res.json({ 
+        success: true, 
+        order_id: order_id,
+        message: 'Order created successfully' 
+      });
+    }
+  });
+  stmt.finalize();
+});
+
+app.get('/api/orders/:order_id', (req, res) => {
+  const order_id = req.params.order_id;
+  
+  db.get(`SELECT * FROM orders WHERE order_id = ?`, [order_id], (err, row) => {
+    if (err) {
+      res.status(500).json({ error: 'Database error' });
+    } else if (row) {
+      res.json(row);
+    } else {
+      res.status(404).json({ error: 'Order not found' });
+    }
+  });
+});
+
+// PayShap payment simulation
+app.post('/api/payment/payshap', (req, res) => {
+  const { order_id, amount, phone_number } = req.body;
+  
+  // Simulate PayShap payment processing
+  setTimeout(() => {
+    // In real implementation, you would integrate with PayShap API here
+    const payment_success = Math.random() > 0.1; // 90% success rate for demo
+    
+    if (payment_success) {
+      // Update order status
+      db.run(`UPDATE orders SET payment_status = 'paid', status = 'confirmed' WHERE order_id = ?`, [order_id]);
+      
+      res.json({
+        success: true,
+        payment_id: 'PSH' + Date.now(),
+        message: 'Payment processed successfully via PayShap'
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: 'Payment failed. Please try again.'
+      });
+    }
+  }, 2000);
 });
 
 // Serve main pages
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/product/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'product.html'));
-});
-
-app.get('/collections', (req, res) => {
-    res.sendFile(path.join(__dirname, 'collections.html'));
+app.get('/shop', (req, res) => {
+  res.sendFile(path.join(__dirname, 'shop.html'));
 });
 
 app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'about.html'));
+  res.sendFile(path.join(__dirname, 'about.html'));
 });
 
-// Handle order submission
-app.post('/api/orders', (req, res) => {
-    const order = req.body;
-    // In a real app, save to database
-    console.log('New order received:', order);
-    res.json({ 
-        success: true, 
-        orderId: 'CLINCH-' + Date.now(),
-        message: 'Order placed successfully!' 
-    });
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'contact.html'));
+});
+
+app.get('/cart', (req, res) => {
+  res.sendFile(path.join(__dirname, 'cart.html'));
+});
+
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'blog.html'));
+});
+
+app.get('/sproduct', (req, res) => {
+  res.sendFile(path.join(__dirname, 'sproduct.html'));
 });
 
 app.listen(PORT, () => {
-    console.log(`🛍️ CLINCH Perfume Store running on port ${PORT}`);
-    console.log(`🌐 http://localhost:${PORT}`);
+  console.log(`🛍️ CLINCH Perfume Store running on port ${PORT}`);
+  console.log(`🌐 http://localhost:${PORT}`);
 });
