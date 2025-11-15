@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - CLINCH Luxury Fragrances</title>
+    <title>Shop - CLINCH Luxury Fragrances</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,9 +14,9 @@
         <div>
             <ul id="navbar">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
+                <li><a class="active" href="shop.html">Shop</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a class="active" href="about.html">About</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li id="lg-bag"><a href="cart.html"><i class="fas fa-shopping-bag"></i></a></li>
                 <a href="#" id="close"><i class="fas fa-times"></i></a>
@@ -29,60 +29,23 @@
     </section>
 
     <!-- Page Header -->
-    <section id="page-header" class="about-header">
-        <h2>#KnowUs</h2>
-        <p>Learn more about our passion for luxury fragrances</p>
+    <section id="page-header">
+        <h2>#stayhome</h2>
+        <p>Save more with coupons & up to 70% off!</p>
     </section>
 
-    <!-- About Section -->
-    <section id="about-head" class="section-p1">
-        <img src="images/about/a6.jpg" alt="About CLINCH">
-        <div>
-            <h2>Who We Are?</h2>
-            <p>CLINCH was born from a passion for creating unforgettable sensory experiences. Our journey began with a simple mission: to craft luxury fragrances that tell stories and evoke emotions. Each scent is meticulously crafted using the finest ingredients sourced from around the world, combined with innovative techniques that push the boundaries of traditional perfumery.</p>
-            
-            <abbr title="">Create stunning perfumes with as much or as little control as you like thanks to a choice of Basic and Creative modes.</abbr>
-            
-            <br><br>
-            
-            <marquee bgcolor="#ccc" loop="-1" scrollamount="5" width="100%">Create stunning perfumes with as much or as little control as you like thanks to a choice of Basic and Creative modes.</marquee>
+    <!-- Product Grid -->
+    <section id="product1" class="section-p1">
+        <div class="pro-container" id="shop-products">
+            <!-- Products loaded by JavaScript -->
         </div>
     </section>
 
-    <!-- About App -->
-    <section id="about-app" class="section-p1">
-        <h1>Download Our <a href="#">App</a></h1>
-        <div class="video">
-            <video autoplay muted loop src="images/about/1.mp4"></video>
-        </div>
-    </section>
-
-    <!-- Features -->
-    <section id="feature" class="section-p1">
-        <div class="fe-box">
-            <img src="images/features/f1.png" alt="Free Shipping">
-            <h6>Free Shipping</h6>
-        </div>
-        <div class="fe-box">
-            <img src="images/features/f2.png" alt="Online Order">
-            <h6>Online Order</h6>
-        </div>
-        <div class="fe-box">
-            <img src="images/features/f3.png" alt="Save Money">
-            <h6>Save Money</h6>
-        </div>
-        <div class="fe-box">
-            <img src="images/features/f4.png" alt="Promotions">
-            <h6>Promotions</h6>
-        </div>
-        <div class="fe-box">
-            <img src="images/features/f5.png" alt="Happy Sell">
-            <h6>Happy Sell</h6>
-        </div>
-        <div class="fe-box">
-            <img src="images/features/f6.png" alt="24/7 Support">
-            <h6>24/7 Support</h6>
-        </div>
+    <!-- Pagination -->
+    <section id="pagination" class="section-p1">
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#"><i class="fal fa-long-arrow-alt-right"></i></a>
     </section>
 
     <!-- Newsletter -->
@@ -151,6 +114,48 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Load all products for shop page
+        async function loadShopProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                displayShopProducts(products);
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        function displayShopProducts(products) {
+            const container = document.getElementById('shop-products');
+            if (!container) return;
+            
+            container.innerHTML = products.map(product => `
+                <div class="pro" onclick="window.location.href='sproduct?id=${product.id}'">
+                    <img src="${product.image || 'images/perfume1.jpg'}" alt="${product.name}">
+                    <div class="des">
+                        <span>${product.category}</span>
+                        <h5>${product.name}</h5>
+                        <div class="star">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h4>R${product.price.toFixed(2)}</h4>
+                    </div>
+                    <a href="#" class="cart" onclick="event.stopPropagation(); addToCart(${product.id})">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadShopProducts();
+        });
+    </script>
 </body>
 </html>
