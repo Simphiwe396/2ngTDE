@@ -1,18 +1,18 @@
 let cart = [];
 let products = [];
 
-// Initialize the website
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     updateCartCount();
     
-    // Category filter
-    document.querySelectorAll('.category-nav a').forEach(link => {
-        link.addEventListener('click', function(e) {
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Update active link
-            document.querySelectorAll('.category-nav a').forEach(l => l.classList.remove('active'));
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             
             // Filter products
@@ -20,9 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
             filterProducts(filter);
         });
     });
+    
+    // Cart link
+    document.querySelector('.cart-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        openCart();
+    });
 });
 
-// Load products from API
+// Load products
 async function loadProducts() {
     try {
         const response = await fetch('/api/products');
@@ -30,6 +36,25 @@ async function loadProducts() {
         displayProducts(products);
     } catch (error) {
         console.error('Error loading products:', error);
+        // Fallback to local products if API fails
+        displayProducts([
+            {
+                id: 1,
+                name: "Midnight Rose",
+                description: "Luxurious floral fragrance",
+                price: 89.99,
+                image: "/images/perfume1.jpg",
+                category: "perfume"
+            },
+            {
+                id: 2,
+                name: "Ocean Breeze",
+                description: "Fresh aquatic scent",
+                price: 75.50,
+                image: "/images/perfume2.jpg", 
+                category: "perfume"
+            }
+        ]);
     }
 }
 
@@ -42,21 +67,23 @@ function displayProducts(productsToShow) {
         const productCard = `
             <div class="product-card" data-category="${product.category}">
                 <div class="product-image">
-                    <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                    <img src="${product.image}" alt="${product.name}">
                 </div>
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <div class="product-price">$${product.price.toFixed(2)}</div>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">
-                    Add to Cart
-                </button>
+                <div class="product-info">
+                    <h3 class="product-name">${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        Add to Bag
+                    </button>
+                </div>
             </div>
         `;
         grid.innerHTML += productCard;
     });
 }
 
-// Filter products by category
+// Filter products
 function filterProducts(category) {
     if (category === 'all') {
         displayProducts(products);
@@ -66,7 +93,7 @@ function filterProducts(category) {
     }
 }
 
-// Cart functionality
+// Cart functions
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     const existingItem = cart.find(item => item.id === productId);
@@ -81,7 +108,7 @@ function addToCart(productId) {
     }
     
     updateCartCount();
-    showCartNotification('Product added to cart!');
+    showNotification(`${product.name} added to bag!`);
 }
 
 function removeFromCart(productId) {
@@ -92,12 +119,12 @@ function removeFromCart(productId) {
 
 function updateCartCount() {
     const count = cart.reduce((total, item) => total + item.quantity, 0);
-    document.getElementById('cart-count').textContent = count;
+    document.querySelector('.cart-count').textContent = count;
 }
 
 function updateCartDisplay() {
     const cartItems = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
+    const totalAmount = document.querySelector('.total-amount');
     
     cartItems.innerHTML = '';
     let total = 0;
@@ -110,15 +137,17 @@ function updateCartDisplay() {
             <div class="cart-item">
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>
-                    <div class="cart-item-price">$${item.price} x ${item.quantity}</div>
+                    <div class="cart-item-price">$${item.price} × ${item.quantity}</div>
                 </div>
-                <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+                <button class="remove-item" onclick="removeFromCart(${item.id})">
+                    Remove
+                </button>
             </div>
         `;
         cartItems.innerHTML += cartItem;
     });
     
-    cartTotal.textContent = total.toFixed(2);
+    totalAmount.textContent = total.toFixed(2);
 }
 
 function openCart() {
@@ -132,12 +161,12 @@ function closeCart() {
 
 function openCheckout() {
     if (cart.length === 0) {
-        alert('Your cart is empty!');
+        showNotification('Your bag is empty!');
         return;
     }
     
     const orderItems = document.getElementById('order-items');
-    const orderTotal = document.getElementById('order-total');
+    const finalTotal = document.getElementById('order-total');
     
     orderItems.innerHTML = '';
     let total = 0;
@@ -148,20 +177,21 @@ function openCheckout() {
         
         orderItems.innerHTML += `
             <div class="order-item">
-                ${item.name} - $${item.price} x ${item.quantity} = $${itemTotal.toFixed(2)}
+                <span>${item.name} (${item.quantity})</span>
+                <span>$${itemTotal.toFixed(2)}</span>
             </div>
         `;
     });
     
-    orderTotal.textContent = total.toFixed(2);
-    document.getElementById('checkout-modal').style.display = 'block';
+    finalTotal.textContent = total.toFixed(2);
+    document.getElementById('checkout-modal').style.display = 'flex';
 }
 
 function closeCheckout() {
     document.getElementById('checkout-modal').style.display = 'none';
 }
 
-// Handle checkout form submission
+// Handle order submission
 document.getElementById('checkout-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -171,7 +201,7 @@ document.getElementById('checkout-form').addEventListener('submit', async functi
         phone: document.getElementById('customer-phone').value,
         address: document.getElementById('customer-address').value,
         items: cart,
-        total: parseFloat(document.getElementById('order-total').textContent)
+        total: parseFloat(document.querySelector('.final-total').textContent)
     };
     
     try {
@@ -187,20 +217,23 @@ document.getElementById('checkout-form').addEventListener('submit', async functi
         
         if (result.success) {
             // Show confirmation
-            document.getElementById('confirmed-order-id').textContent = result.orderId;
+            document.getElementById('confirmed-order-id').textContent = '#' + result.orderId;
             document.getElementById('checkout-modal').style.display = 'none';
-            document.getElementById('order-confirmation').style.display = 'block';
+            document.getElementById('order-confirmation').style.display = 'flex';
             
             // Clear cart
             cart = [];
             updateCartCount();
             closeCart();
+            
+            // Reset form
+            document.getElementById('checkout-form').reset();
         } else {
-            alert('Error placing order: ' + result.message);
+            showNotification('Error: ' + result.message);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error placing order. Please try again.');
+        showNotification('Error placing order. Please try again.');
     }
 });
 
@@ -212,30 +245,41 @@ function scrollToProducts() {
     document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
 }
 
-function showCartNotification(message) {
-    // Create notification
+function showNotification(message) {
+    // Create notification element
     const notification = document.createElement('div');
     notification.style.cssText = `
         position: fixed;
         top: 100px;
         right: 20px;
-        background: var(--success);
+        background: var(--primary);
         color: white;
-        padding: 15px 20px;
-        border-radius: 5px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
         z-index: 1003;
+        box-shadow: var(--shadow);
+        animation: slideIn 0.3s ease;
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
     
     // Remove after 3 seconds
     setTimeout(() => {
-        notification.remove();
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
 
-// Make cart accessible from navigation
-document.querySelector('a[href="#cart"]').addEventListener('click', function(e) {
-    e.preventDefault();
-    openCart();
-});
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
