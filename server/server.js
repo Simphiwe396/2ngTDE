@@ -3,17 +3,12 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Serve static files from the current directory
-app.use(express.static(path.join(__dirname)));
+// Middleware
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Serve main page
+// Serve all files
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Handle all other routes
-app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
