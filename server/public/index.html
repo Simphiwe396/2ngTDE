@@ -3,166 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINCH - Graceful Clothing & Fragrances</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <title>CLINCH - Order Fragrances & Clothing</title>
+    <link rel="stylesheet" href="/styles/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-<nav class="nav-bar">
-    <a id="logo" href="#">
-        <img src="images/logo.png" alt="CLINCH Logo" class="logo-img">
-    </a>
-    <div class="nav-bar-links">
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#products">Shop</a></li>
-            <li><a href="#cart">Cart (<span id="cart-count">0</span>)</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </div>
-</nav>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a id="logo" href="#">
+            <img src="/images/logo.png" alt="CLINCH Logo" class="logo-img">
+        </a>
+        <div class="nav-bar-links">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Shop</a></li>
+                <li><a href="#cart">Cart (<span id="cart-count">0</span>)</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
-<nav class="nav-bar-responsive">
-    <a id="logo" href="#">
-        <img src="images/logo.png" alt="CLINCH Logo" class="logo-img">
-    </a>
-    <div class="menu-toggle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-        </svg>
-    </div>
-</nav>
+    <!-- Hero Section -->
     <div id="home" class="container-1">
         <div class="container-text">
-            <h1 class="large-text">We Care About Your Elegance</h1>
-            <p>CLINCH is dedicated to the art of personal expression. Our collections are designed for the modern individual who moves with purpose and grace. Explore thoughtfully designed clothing that transitions seamlessly through your life, complemented by a range of exquisite perfumes that become your invisible signature. Here, style is a full sensory experience—woven into every fabric and bottled in every fragrance.</p>
-            <button class="button-style">Discover Collection</button>
+            <h1 class="large-text">Elegant Fragrances & Clothing</h1>
+            <p>Discover our exclusive collection of perfumes and elegant clothing. Each piece is crafted with precision and care to enhance your personal style.</p>
+            <button class="button-style" onclick="scrollToProducts()">Shop Now</button>
         </div>
-        <div id="image-container-1">
-            <img src="images/first-image.png" alt="Elegant fragrance collection">
-        </div>
-    </div>
-
-    <div class="container-2">
-        <div class="slogan">
-            <h1 class="large-text">CLINCH</h1>
-            <p>Elegance Woven. Beauty Bottled.</p>
-        </div>
-        <div class="brand-image">
-            <img src="images/second-image.jpg" alt="Luxury products">
-        </div>
-        <div class="container-text">
-            <h2 class="big-text">Why Shop With CLINCH</h2>
-            <p>At CLINCH, we offer more than just products; we provide a curated experience in elegance. Unlike ordinary retailers, we meticulously blend timeless apparel with captivating fragrances, ensuring every piece tells a part of your unique story. From our personalized style guidance and thoughtful gifting services to our commitment to sustainability with perfume refills, every detail is designed around you. Here, you are not just a customer—you are a valued member of a community dedicated to grace, quality, and enduring style.</p>
-            <button class="button-style">Our Story</button>
+        <div class="hero-image">
+            <img src="/images/product1.jpg" alt="CLINCH Products" style="width: 100%; max-width: 500px; border-radius: 20px;">
         </div>
     </div>
 
-    <div id="services" class="container-3">
-        <h1 class="large-text">Our Services</h1>
-        <div class="container-3-services">
-            <div class="service-card">
-                <img src="logos/recommendation.png" alt="Recommendations">
-                <h2>Personal Style Guidance</h2>
-                <p>Feeling overwhelmed by choices? Our complimentary style consultation service is here to guide you. Share your preferences, occasion, or the mood you wish to evoke, and our experts will curate a personalized selection of clothing and fragrances that resonate with your personal aura.</p>
-            </div>
-            <div class="service-card">
-                <img src="logos/giftbox.png" alt="Gifting">
-                <h2>The Art of Thoughtful Gifting</h2>
-                <p>Searching for the perfect present? Our gifting service takes the guesswork out of finding something truly memorable. We help you select graceful and sophisticated gifts, with beautiful packaging and personalized notes to make your present as special as the person receiving it.</p>
-            </div>
-            <div class="service-card">
-                <img src="logos/perfume-spray.png" alt="Refills">
-                <h2>Sustainable Refills</h2>
-                <p>Love your signature fragrance? Embrace a more sustainable and luxurious experience with our exclusive refill service. Replenish your beautiful bottle with the scent you adore, at a kinder price to your wallet and the planet.</p>
-            </div>
-            <div class="service-card">
-                <img src="logos/refund.png" alt="Returns">
-                <h2>Hassle-Free Returns</h2>
-                <p>We want you to be completely delighted with your purchase. Our straightforward and gracious returns policy ensures that if your item doesn't meet your expectations, the process to exchange or return it is simple and hassle-free.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="products" class="container-4">
-        <h1 class="big-text">Our Collections</h1>
-        <p><b>ELEGANT APPAREL & CAPTIVATING FRAGRANCES</b></p>
+    <!-- Products Section -->
+    <div id="products" class="container-products">
+        <h1 class="big-text">Our Collection</h1>
         <div class="category-nav">
             <ul>
-                <li><a href="#" class="active">All Products</a></li>
-                <li><a href="#">Floral Scents</a></li>
-                <li><a href="#">Woody Notes</a></li>
-                <li><a href="#">Evening Wear</a></li>
-                <li><a href="#">Day Collections</a></li>
+                <li><a href="#" class="active" data-filter="all">All Products</a></li>
+                <li><a href="#" data-filter="perfume">Fragrances</a></li>
+                <li><a href="#" data-filter="clothing">Clothing</a></li>
+                <li><a href="#" data-filter="set">Sets</a></li>
             </ul>
         </div>
 
-        <div class="container-4-collection">
-            <div class="product-card">
-                <img src="images/perfume-image1.jpg" alt="Signature Elegance">
-                <h3>Signature Elegance</h3>
-                <p>Evening Gown & Perfume Set</p>
-                <span class="price">$189.00</span>
-            </div>
-            <div class="product-card">
-                <img src="images/perfume-image2.jpg" alt="Morning Dew">
-                <h3>Morning Dew</h3>
-                <p>Fresh Floral Fragrance</p>
-                <span class="price">$89.00</span>
-            </div>
-            <div class="product-card">
-                <img src="images/perfume-image3.jpg" alt="Timeless Classic">
-                <h3>Timeless Classic</h3>
-                <p>Wool Blend Coat</p>
-                <span class="price">$156.00</span>
-            </div>
-            <div class="product-card">
-                <img src="images/perfume-image4.jpg" alt="Mystic Woods">
-                <h3>Mystic Woods</h3>
-                <p>Oriental Perfume</p>
-                <span class="price">$95.00</span>
-            </div>
-            <div class="product-card">
-                <img src="images/perfume-image5.jpg" alt="Silk Elegance">
-                <h3>Silk Elegance</h3>
-                <p>Day-to-Night Dress</p>
-                <span class="price">$134.00</span>
-            </div>
-            <div class="product-card">
-                <img src="images/perfume-image6.jpg" alt="Citrus Bloom">
-                <h3>Citrus Bloom</h3>
-                <p>Fresh Summer Scent</p>
-                <span class="price">$78.00</span>
-            </div>
+        <div id="products-grid" class="products-grid">
+            <!-- Products will be loaded here by JavaScript -->
         </div>
     </div>
 
-    <footer id="footer">
-        <div class="footer-section">
-            <h2 class="big-text"><b>CLINCH</b></h2>
-            <p><i>As we look to the future, our vision extends beyond being a mere destination for style; we aspire to become a cherished part of your lifelong journey in elegance. We are committed to innovating sustainably, expanding our collections with even more exquisite, consciously-crafted apparel and developing unique, personal fragrances that tell your story.</i></p>
-            <p>&copy; 2025 CLINCH - All rights Reserved</p>
+    <!-- Shopping Cart -->
+    <div id="cart" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart" onclick="closeCart()">×</button>
         </div>
-        <div class="footer-section">
-            <h2 class="big-text">Opening Times</h2>
-            <p>Monday - Friday: 10.00 - 23.00<br>
-               Saturday: 10.00 - 19.00<br>
-               Sunday: 12.00 - 18.00</p>
-            <div class="social-logos">
-                <a href="#"><img src="logos/facebook.png" alt="Facebook"></a>
-                <a href="#"><img src="logos/instagram.png" alt="Instagram"></a>
-                <a href="#"><img src="logos/twitter.png" alt="Twitter"></a>
-                <a href="#"><img src="logos/pinterest.png" alt="Pinterest"></a>
-            </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be loaded here -->
         </div>
-        <div class="footer-section">
-            <h2 class="big-text">Contact Us</h2>
-            <p>📞 Tel: (+27) 69 885 7052</p>               
-            <p>✉️ Email: contact@clinch-elegance.com</p>             
-            <p>📍 Address: 2022 Mloleleki ext3 Zwide Str, Katlehong, Germiston, 1431 South Africa</p>
+        <div class="cart-total">
+            Total: $<span id="cart-total">0.00</span>
         </div>
-    </footer>
+        <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCheckout()">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="customer-name">Full Name *</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">Email *</label>
+                    <input type="email" id="customer-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Phone Number *</label>
+                    <input type="tel" id="customer-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-address">Delivery Address *</label>
+                    <textarea id="customer-address" required></textarea>
+                </div>
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div id="order-items"></div>
+                    <div class="order-total">Total: $<span id="order-total">0.00</span></div>
+                </div>
+                <button type="submit" class="submit-order-btn">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Confirmation -->
+    <div id="order-confirmation" class="modal">
+        <div class="modal-content">
+            <h2>Order Confirmed! 🎉</h2>
+            <p>Thank you for your order! We've sent a confirmation to your email.</p>
+            <p>Your order ID: <strong id="confirmed-order-id"></strong></p>
+            <button class="button-style" onclick="closeConfirmation()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
 </body>
 </html>
