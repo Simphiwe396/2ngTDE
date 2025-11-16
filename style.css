@@ -67,17 +67,19 @@ body {
     left: 0;
 }
 
+/* Logo Styles */
 .logo {
-    font-size: 28px;
-    font-weight: 800;
-    color: #088178;
-    text-decoration: none;
     display: flex;
     align-items: center;
+    text-decoration: none;
+    height: 40px;
 }
 
-.logo::before {
-    content: "✨ CLINCH";
+.logo-img {
+    height: 40px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
 }
 
 #navbar {
@@ -694,6 +696,167 @@ footer .copyright {
     margin-bottom: 5px;
 }
 
+/* Blog Styles */
+.blog-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    padding-bottom: 90px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.blog-img {
+    width: 50%;
+    margin-right: 40px;
+}
+
+.blog-details {
+    width: 50%;
+}
+
+.blog-details a {
+    text-decoration: none;
+    font-size: 11px;
+    color: #000;
+    font-weight: 700;
+    position: relative;
+    transition: 0.3s;
+}
+
+.blog-details a::after {
+    content: "";
+    width: 50px;
+    height: 1px;
+    background-color: #000;
+    position: absolute;
+    top: 4px;
+    right: -60px;
+}
+
+.blog-details a:hover {
+    color: #088178;
+}
+
+.blog-details a:hover::after {
+    background-color: #088178;
+}
+
+.blog-box h1 {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    font-size: 70px;
+    font-weight: 700;
+    color: #c9cbce;
+    z-index: -9;
+}
+
+/* Contact Styles */
+#contact-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#contact-details .details {
+    width: 40%;
+}
+
+#contact-details .details span,
+#form-details form span {
+    font-size: 12px;
+}
+
+#contact-details .details h2,
+#form-details form h2 {
+    font-size: 26px;
+    line-height: 35px;
+    padding: 20px 0;
+}
+
+#contact-details .details h3 {
+    font-size: 16px;
+    padding-bottom: 15px;
+}
+
+#contact-details .details li {
+    list-style: none;
+    display: flex;
+    padding: 10px 0;
+}
+
+#contact-details .details li i {
+    font-size: 14px;
+    padding-right: 22px;
+}
+
+#contact-details .details li p {
+    margin: 0;
+    font-size: 14px;
+}
+
+#contact-details .map {
+    width: 55%;
+    height: 400px;
+}
+
+#form-details {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+    padding: 80px;
+    border: 1px solid #e1e1e1;
+}
+
+#form-details form {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#form-details form input,
+#form-details form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    outline: none;
+    margin-bottom: 20px;
+    border: 1px solid #e1e1e1;
+}
+
+#form-details form button {
+    background-color: #088178;
+    color: #fff;
+}
+
+#form-details .people div {
+    padding-bottom: 25px;
+    display: flex;
+    align-items: flex-start;
+}
+
+#form-details .people div img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+#form-details .people div p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 25px;
+}
+
+#form-details .people div p span {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+}
+
 /* Responsive Design */
 @media (max-width: 799px) {
     .section-p1 {
@@ -791,6 +954,30 @@ footer .copyright {
     #about-head div {
         padding-left: 0;
     }
+    
+    #contact-details {
+        flex-direction: column;
+    }
+    
+    #contact-details .details {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    #contact-details .map {
+        width: 100%;
+    }
+    
+    #form-details {
+        margin: 10px;
+        padding: 30px 10px;
+        flex-wrap: wrap;
+    }
+    
+    #form-details form {
+        width: 100%;
+        margin-bottom: 30px;
+    }
 }
 
 @media (max-width: 477px) {
@@ -852,5 +1039,19 @@ footer .copyright {
     
     .install-apps {
         flex-direction: column;
+    }
+    
+    .blog-box {
+        flex-direction: column;
+    }
+    
+    .blog-img {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+    
+    .blog-details {
+        width: 100%;
     }
 }
