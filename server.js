@@ -92,6 +92,133 @@ const products = [
   }
 ];
 
+// Products data - Updated with INUKA brand
+const products = [
+  // Original CLINCH GLOW products
+  {
+    id: 1,
+    name: "Midnight Rose",
+    price: 89.99,
+    description: "Luxurious floral fragrance with notes of Bulgarian rose",
+    category: "Floral",
+    brand: "CLINCH GLOW",
+    image: "images/perfume1.jpg",
+    features: ["Long-lasting", "Evening wear", "Romantic"]
+  },
+  {
+    id: 2,
+    name: "Ocean Breeze",
+    price: 75.50,
+    description: "Fresh aquatic scent inspired by coastal waves",
+    category: "Aquatic", 
+    brand: "CLINCH GLOW",
+    image: "images/perfume2.jpg",
+    features: ["Refreshing", "Day wear", "Summer scent"]
+  },
+  {
+    id: 3,
+    name: "Vanilla Dream", 
+    price: 82.00,
+    description: "Warm vanilla fragrance with hints of amber",
+    category: "Oriental",
+    brand: "CLINCH GLOW",
+    image: "images/perfume3.jpg",
+    features: ["Warm", "Comforting", "All-season"]
+  },
+  {
+    id: 4,
+    name: "Citrus Zest",
+    price: 65.00,
+    description: "Energetic citrus scent with bergamot and lemon",
+    category: "Citrus",
+    brand: "CLINCH GLOW",
+    image: "images/perfume4.jpg",
+    features: ["Energizing", "Morning wear", "Unisex"]
+  },
+  {
+    id: 5,
+    name: "Noir Essence",
+    price: 120.00,
+    description: "Mysterious blend of oud, leather and smoky notes",
+    category: "Woody",
+    brand: "CLINCH GLOW",
+    image: "images/perfume5.jpg",
+    features: ["Mysterious", "Evening wear", "Luxury"]
+  },
+  {
+    id: 6,
+    name: "Royal Amber",
+    price: 95.00,
+    description: "Rich amber fragrance with spices and precious woods",
+    category: "Oriental", 
+    brand: "CLINCH GLOW",
+    image: "images/perfume6.jpg",
+    features: ["Royal", "Winter scent", "Elegant"]
+  },
+  
+  // INUKA Brand Products
+  {
+    id: 7,
+    name: "INUKA Elegance",
+    price: 85.00,
+    description: "Sophisticated fragrance for the modern individual",
+    category: "Floral",
+    brand: "INUKA",
+    image: "images/inuka1.jpg",
+    features: ["Elegant", "Day to Night", "Modern"]
+  },
+  {
+    id: 8,
+    name: "INUKA Mystique",
+    price: 92.00,
+    description: "Mysterious and captivating scent experience",
+    category: "Oriental",
+    brand: "INUKA",
+    image: "images/inuka2.jpg",
+    features: ["Mysterious", "Captivating", "Long-lasting"]
+  },
+  {
+    id: 9,
+    name: "INUKA Fresh",
+    price: 78.00,
+    description: "Revitalizing fresh scent for everyday wear",
+    category: "Citrus",
+    brand: "INUKA",
+    image: "images/inuka3.jpg",
+    features: ["Fresh", "Energetic", "Everyday wear"]
+  },
+  {
+    id: 10,
+    name: "INUKA Royal",
+    price: 110.00,
+    description: "Premium luxury fragrance for special occasions",
+    category: "Woody",
+    brand: "INUKA",
+    image: "images/inuka4.jpg",
+    features: ["Luxury", "Special Occasions", "Premium"]
+  },
+  {
+    id: 11,
+    name: "INUKA Serenity",
+    price: 88.00,
+    description: "Calming and peaceful fragrance experience",
+    category: "Floral",
+    brand: "INUKA",
+    image: "images/inuka5.jpg",
+    features: ["Calming", "Peaceful", "Relaxing"]
+  },
+  {
+    id: 12,
+    name: "INUKA Passion",
+    price: 96.00,
+    description: "Intense and passionate fragrance blend",
+    category: "Oriental",
+    brand: "INUKA",
+    image: "images/inuka6.jpg",
+    features: ["Intense", "Passionate", "Romantic"]
+  }
+];
+
 // API Routes
 app.get('/api/products', (req, res) => {
   res.json(products);
@@ -110,7 +237,7 @@ app.get('/api/product/:id', (req, res) => {
 // Order management
 app.post('/api/orders', (req, res) => {
   const { customer_name, email, phone, address, items, total_amount, payment_method } = req.body;
-  const order_id = 'CLINCH-' + Date.now();
+  const order_id = 'CLINCH-GLOW-' + Date.now();
   
   const stmt = db.prepare(`INSERT INTO orders 
     (order_id, customer_name, email, phone, address, items, total_amount, payment_method) 
@@ -209,7 +336,36 @@ app.get('/sproduct', (req, res) => {
   res.sendFile(path.join(__dirname, 'sproduct.html'));
 });
 
+// Handle 404 errors
+app.use((req, res) => {
+  res.status(404).send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Page Not Found - CLINCH GLOW</title>
+        <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+            h1 { color: #088178; }
+            a { color: #088178; text-decoration: none; }
+        </style>
+    </head>
+    <body>
+        <h1>404 - Page Not Found</h1>
+        <p>The page you're looking for doesn't exist.</p>
+        <a href="/">Return to Homepage</a>
+    </body>
+    </html>
+  `);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
 app.listen(PORT, () => {
-  console.log(`🛍️ CLINCH Perfume Store running on port ${PORT}`);
+  console.log(`🛍️ CLINCH GLOW Perfume Store running on port ${PORT}`);
   console.log(`🌐 http://localhost:${PORT}`);
+  console.log(`🚀 Server is ready!`);
 });

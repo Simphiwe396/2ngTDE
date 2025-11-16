@@ -354,6 +354,37 @@ body {
     transform: translateY(-2px);
 }
 
+/* Filter Buttons */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.filter-btn {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #495057;
+}
+
+.filter-btn:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: #088178;
+    color: white;
+    border-color: #088178;
+}
+
 /* Newsletter */
 #newsletter {
     display: flex;

@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - CLINCH Luxury Fragrances</title>
+    <title>Shop - CLINCH GLOW Luxury Fragrances</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Header -->
     <section id="header">
-        <a href="#" class="logo">✨ CLINCH</a>
+        <a href="#" class="logo">
+            <img src="images/logo.jpg" alt="CLINCH GLOW" class="logo-img">
+        </a>
         <div>
             <ul id="navbar">
                 <li><a href="index.html">Home</a></li>
@@ -30,8 +32,23 @@
 
     <!-- Page Header -->
     <section id="page-header">
-        <h2>#stayhome</h2>
-        <p>Save more with coupons & up to 70% off!</p>
+        <h2>#ExploreLuxury</h2>
+        <p>Discover our premium fragrance collections</p>
+    </section>
+
+    <!-- Category Filter -->
+    <section id="category-filter" class="section-p1" style="text-align: center; margin-bottom: 30px;">
+        <h3>Browse Collections</h3>
+        <div class="filter-buttons" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+            <button class="filter-btn active" data-filter="all">All Products</button>
+            <button class="filter-btn" data-filter="CLINCH GLOW">CLINCH GLOW</button>
+            <button class="filter-btn" data-filter="INUKA">INUKA</button>
+            <button class="filter-btn" data-filter="Floral">Floral</button>
+            <button class="filter-btn" data-filter="Oriental">Oriental</button>
+            <button class="filter-btn" data-filter="Citrus">Citrus</button>
+            <button class="filter-btn" data-filter="Woody">Woody</button>
+            <button class="filter-btn" data-filter="Aquatic">Aquatic</button>
+        </div>
     </section>
 
     <!-- Product Grid -->
@@ -63,9 +80,11 @@
     <!-- Footer -->
     <footer class="section-p1">
         <div class="col">
-            <a href="#" class="logo">✨ CLINCH</a>
+            <a href="#" class="logo">
+                <img src="images/logo.jpg" alt="CLINCH GLOW" class="logo-img">
+            </a>
             <h4>Contact</h4>
-            <p><strong>Address:</strong> 123 Luxury Street, Pretoria, South Africa</p>
+            <p><strong>Address:</strong> 2022 Moleleki Zwwide Street, Germiston, South Africa</p>
             <p><strong>Phone:</strong> +27 12 345 6789</p>
             <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
             <div class="follow">
@@ -119,7 +138,7 @@
         </div>
 
         <div class="copyright">
-            <p>© 2024 CLINCH. All Rights Reserved</p>
+            <p>© 2025 CLINCH GLOW. All Rights Reserved</p>
         </div>
     </footer>
 
@@ -130,6 +149,7 @@
                 const response = await fetch('/api/products');
                 const products = await response.json();
                 displayShopProducts(products);
+                setupFilterButtons(products);
             } catch (error) {
                 console.error('Error loading products:', error);
             }
@@ -140,11 +160,16 @@
             if (!container) return;
             
             container.innerHTML = products.map(product => `
-                <div class="pro" onclick="window.location.href='sproduct?id=${product.id}'">
+                <div class="pro" data-brand="${product.brand}" data-category="${product.category}" onclick="window.location.href='sproduct?id=${product.id}'">
                     <div class="product-image">
-                        <i class="fas fa-wine-bottle"></i>
+                        ${product.image ? 
+                            `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             <i class="fas fa-wine-bottle" style="display: none; font-size: 48px;"></i>` :
+                            `<i class="fas fa-wine-bottle" style="font-size: 48px;"></i>`
+                        }
                     </div>
                     <div class="des">
+                        <span style="font-size: 10px; background: #f0f0f0; padding: 2px 8px; border-radius: 10px;">${product.brand}</span>
                         <span>${product.category}</span>
                         <h5>${product.name}</h5>
                         <div class="star">
@@ -161,6 +186,86 @@
                     </a>
                 </div>
             `).join('');
+        }
+
+        function setupFilterButtons(products) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    filterProducts(filter, products);
+                });
+            });
+        }
+
+        function filterProducts(filter, products) {
+            const productElements = document.querySelectorAll('.pro');
+            
+            productElements.forEach(element => {
+                const brand = element.getAttribute('data-brand');
+                const category = element.getAttribute('data-category');
+                
+                if (filter === 'all' || brand === filter || category === filter) {
+                    element.style.display = 'block';
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        // Add to cart function (make it global)
+        window.addToCart = function(productId) {
+            fetch('/api/products')
+                .then(response => response.json())
+                .then(products => {
+                    const product = products.find(p => p.id === productId);
+                    if (product) {
+                        let cart = JSON.parse(localStorage.getItem('clinch_cart')) || [];
+                        const existingItem = cart.find(item => item.id === productId);
+                        
+                        if (existingItem) {
+                            existingItem.quantity += 1;
+                        } else {
+                            cart.push({
+                                ...product,
+                                quantity: 1
+                            });
+                        }
+                        
+                        localStorage.setItem('clinch_cart', JSON.stringify(cart));
+                        showNotification(`${product.name} added to cart!`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding to cart:', error);
+                });
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: #088178;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 1000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
 
         // Initialize when page loads
