@@ -1,21 +1,40 @@
-const express = require("express");
-const path = require("path");
-const mongoose = require("mongoose");
-require("dotenv").config();
+import express from "express";
+import path from "path";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
 
-// ⭐ FIX — serve your static files
+// Serve static public folder
 app.use(express.static("public"));
 
-// your API routes here...
+// Connect to MongoDB
+if (process.env.MONGO_URI) {
+    mongoose
+        .connect(process.env.MONGO_URI)
+        .then(() => console.log("Connected to MongoDB"))
+        .catch((err) => console.error("MongoDB Error:", err));
+}
 
-// ⭐ MUST be at the bottom
+// ======= ROUTES (PayFast, Admin, API, etc.) =======
+app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+});
+
+// Fallback for frontend pages
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-app.listen(process.env.PORT || 10000, () =>
-    console.log("Server running on", process.env.PORT || 10000)
-);
+// Start server
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+    console.log("Server running on port", PORT);
+});
