@@ -1,1 +1,0 @@
-ClinchGlow static project
