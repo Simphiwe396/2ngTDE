@@ -1,0 +1,1 @@
+/* Styles */ body{font-family:Inter,Arial;margin:0;padding:0;background:#fff9f0;color:#3b2f2f} .container{max-width:1100px;margin:0 auto;padding:16px} .logo-icon{height:44px} .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px} .card{background:#fff;padding:12px;border-radius:8px;box-shadow:0 6px 14px rgba(0,0,0,0.06)}
