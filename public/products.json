@@ -1,39 +1,36 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "p1",
       "name": "Inuka Matt Liquid Lipstick - Ruby",
-      "price": 299.0,
+      "price": 299,
+      "image": "/assets/inuka2.jpg",
       "category": "Lipstick",
-      "image": "/assets/inuka2.jpg"
+      "description": "Long-wear matte liquid lipstick."
     },
     {
-      "id": 2,
+      "id": "p2",
       "name": "Inuka Hydration Lotion",
-      "price": 189.0,
+      "price": 189,
+      "image": "/assets/inuka3.jpg",
       "category": "Lotions",
-      "image": "/assets/inuka3.jpg"
+      "description": "Ultimate hydration lotion."
     },
     {
-      "id": 3,
+      "id": "p3",
       "name": "Inuka Signature Fragrance",
-      "price": 449.0,
+      "price": 449,
+      "image": "/assets/perfume2.jpg",
       "category": "Perfumes",
-      "image": "/assets/perfume2.jpg"
+      "description": "Signature scent for special moments."
     },
     {
-      "id": 4,
+      "id": "p4",
       "name": "Hand Sanitizer - Lime Basil",
-      "price": 89.0,
+      "price": 89,
+      "image": "/assets/inuka6.jpg",
       "category": "Health",
-      "image": "/assets/inuka4.jpg"
-    },
-    {
-      "id": 5,
-      "name": "Luxury Perfume - Eternal Bliss",
-      "price": 699.0,
-      "category": "Perfumes",
-      "image": "/assets/perfume4.jpg"
+      "description": "Portable hand sanitizer."
     }
   ]
 }
