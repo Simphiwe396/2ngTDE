@@ -1,45 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClinchGlow Emporium</title>
-
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <img src="assets/hero.jpg" alt="Featured" class="hero-img">
-        <div class="hero-text">
-            <h1>ClinchGlow Emporium</h1>
-            <p>Luxury you can feel.</p>
-        </div>
-    </section>
-
-    <!-- SEARCH BAR -->
-    <div class="search-container">
-        <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Search products..."
-            oninput="searchProducts()"
-        >
-    </div>
-
-    <!-- CATEGORY FILTERS -->
-    <div class="categories">
-        <button onclick="filterProducts('All')">All</button>
-        <button onclick="filterProducts('Perfumes')">Perfumes</button>
-        <button onclick="filterProducts('Lipstick')">Lipstick</button>
-        <button onclick="filterProducts('Lotions')">Lotions</button>
-        <button onclick="filterProducts('Health')">Health</button>
-    </div>
-
-    <!-- PRODUCT GRID -->
-    <section id="productGrid" class="product-grid"></section>
-
-    <script src="/app.js"></script>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ClinchGlow Emporium</title><link rel="stylesheet" href="/styles.css">
+</head><body>
+<header class="hero"><div class="hero-inner"><h1>ClinchGlow Emporium</h1><p class="tag">Luxury you can feel.</p><input id="searchInput" placeholder="Search products..." oninput="searchProducts()"><div class="categories" id="categories"></div></div></header>
+<main class="container"><section id="productGrid" class="grid"></section></main>
+<footer class="footer"><a href="/admin.html">Admin</a> • <a href="/track.html">Track Order</a> • <a href="/cart.html">Cart</a></footer>
+<script src="/app.js" defer></script></body></html>
