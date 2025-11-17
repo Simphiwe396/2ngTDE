@@ -3,7 +3,7 @@ let filteredProducts = [];
 
 async function loadProducts() {
     try {
-        const res = await fetch("/api/products");
+        const res = await fetch("/products");  // FIXED
         products = await res.json();
         filteredProducts = products;
         displayProducts(products);
