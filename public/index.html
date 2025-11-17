@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClinchGlow Emporium</title>
+
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <img src="assets/hero.jpg" alt="Featured" class="hero-img">
+        <div class="hero-text">
+            <h1>ClinchGlow Emporium</h1>
+            <p>Luxury you can feel.</p>
+        </div>
+    </section>
+
+    <!-- SEARCH BAR -->
+    <div class="search-container">
+        <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search products..."
+            oninput="searchProducts()"
+        >
+    </div>
+
+    <!-- CATEGORY FILTERS -->
+    <div class="categories">
+        <button onclick="filterProducts('All')">All</button>
+        <button onclick="filterProducts('Perfumes')">Perfumes</button>
+        <button onclick="filterProducts('Lipstick')">Lipstick</button>
+        <button onclick="filterProducts('Lotions')">Lotions</button>
+        <button onclick="filterProducts('Health')">Health</button>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <section id="productGrid" class="product-grid"></section>
+
+    <script src="/app.js"></script>
+</body>
+</html>

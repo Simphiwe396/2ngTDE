@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="productDetails" class="product-view"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        fetch(`/api/products`)
+            .then(res => res.json())
+            .then(list => {
+                const item = list.find(p => p._id === id);
+
+                document.getElementById("productDetails").innerHTML = `
+                    <div class="product-details">
+                        <img src="${item.image}">
+                        <h1>${item.name}</h1>
+                        <p class="price">R ${item.price}.00</p>
+                        <button>Add to cart</button>
+                    </div>
+                `;
+            });
+    </script>
+
+</body>
+</html>

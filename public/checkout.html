@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+  <main class="container" style="padding:20px">
+    <h1>Checkout</h1>
+    <form id="checkoutForm">
+      <input name="name" id="name" placeholder="Full name" required><br><br>
+      <input name="phone" id="phone" placeholder="Phone (include country code, e.g. +2783...)" required><br><br>
+      <textarea name="address" id="address" placeholder="Address"></textarea><br><br>
+      <button type="submit">Pay with PayFast</button>
+    </form>
+  </main>
+<script>
+document.getElementById('checkoutForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  if(cart.length === 0){ alert('Cart empty'); return; }
+  const payload = {
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    address: document.getElementById('address').value,
+    cart: cart,
+    email: ''
+  };
+  const res = await fetch('/create-payfast-payment', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+  const text = await res.text();
+  document.open(); document.write(text); document.close();
+});
+</script>
+</body>
+</html>
