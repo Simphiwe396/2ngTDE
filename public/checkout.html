@@ -1,1 +1,51 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Checkout</title><link rel='stylesheet' href='/styles.css'></head><body><main class='container'><h1>Checkout</h1><form id='f'><input id='name' placeholder='Full name' required><br><input id='phone' placeholder='Phone'><br><textarea id='address' placeholder='Address'></textarea><br><button type='submit'>Pay with PayFast</button></form></main><script>document.getElementById('f').addEventListener('submit', async function(e){ e.preventDefault(); const cart=JSON.parse(localStorage.getItem('cart')||'[]'); if(cart.length===0){ alert('Cart empty'); return;} const payload={ name:document.getElementById('name').value, phone:document.getElementById('phone').value, address:document.getElementById('address').value, cart:cart }; const res=await fetch('/create-payfast-payment',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) }); const html=await res.text(); document.open(); document.write(html); document.close(); });</script></body></html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Checkout</h1>
+    <form id="checkoutForm">
+      <label>Full name<br><input id="name" name="name" required></label><br>
+      <label>Email (optional)<br><input id="email" name="email" type="email"></label><br>
+      <label>Phone<br><input id="phone" name="phone"></label><br>
+      <label>Address<br><textarea id="address" name="address"></textarea></label><br>
+      <button type="submit">Pay with PayFast</button>
+    </form>
+  </main>
+
+  <script>
+    async function getCart() {
+      return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+
+    document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const cart = await getCart();
+      if (!cart || cart.length === 0) { alert('Cart is empty'); return; }
+      const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        cart
+      };
+      // Create payment: server will save order and return auto-post form HTML for PayFast
+      const res = await fetch('/create-payfast-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const html = await res.text();
+      // replace current document with PayFast redirect form HTML
+      document.open();
+      document.write(html);
+      document.close();
+    });
+  </script>
+</body>
+</html>

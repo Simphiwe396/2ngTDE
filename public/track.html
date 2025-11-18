@@ -1,1 +1,30 @@
-<!doctype html><html><head><meta name='viewport' content='width=device-width,initial-scale=1'></head><body><main class='container'><h1>Track Order</h1><input id='id' placeholder='Order id'><button id='b'>Track</button><pre id='r'></pre></main><script>document.getElementById('b').addEventListener('click',async()=>{const id=document.getElementById('id').value; if(!id){alert('enter id');return;} const res=await fetch('/api/track/'+encodeURIComponent(id)); const data=await res.json(); document.getElementById('r').innerText=JSON.stringify(data,null,2);});</script></html>
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track Order</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+  <main class="container">
+    <h1>Track Order</h1>
+    <input id="orderId" placeholder="Enter order ID (e.g. ord_1234567890)">
+    <button id="btn">Track</button>
+    <pre id="out"></pre>
+  </main>
+  <script>
+    document.getElementById('btn').addEventListener('click', async () => {
+      const id = document.getElementById('orderId').value.trim();
+      if (!id) return alert('Enter order ID');
+      try {
+        const res = await fetch('/api/track/' + encodeURIComponent(id));
+        if (!res.ok) {
+          const txt = await res.text();
+          document.getElementById('out').textContent = 'Error: ' + txt;
+          return;
+        }
+        const json = await res.json();
+        document.getElementById('out').textContent = JSON.stringify(json, null, 2);
+      } catch (e) {
+        document.getElementById('out').textContent = 'Network error: ' + e.message;
+      }
+    });
+  </script>
+</body>
+</html>
