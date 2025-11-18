@@ -14,7 +14,7 @@
       "price": 189,
       "image": "/assets/inuka3.jpg",
       "category": "Lotions",
-      "description": "Ultimate hydration lotion."
+      "description": "Ultimate hydration lotion for silky skin."
     },
     {
       "id": "p3",
@@ -22,7 +22,7 @@
       "price": 449,
       "image": "/assets/perfume2.jpg",
       "category": "Perfumes",
-      "description": "Signature scent for special moments."
+      "description": "Captivating signature scent for special moments."
     },
     {
       "id": "p4",
@@ -30,7 +30,7 @@
       "price": 89,
       "image": "/assets/inuka6.jpg",
       "category": "Health",
-      "description": "Portable hand sanitizer."
+      "description": "Portable hand sanitizer with fresh lime basil scent."
     }
   ]
 }
