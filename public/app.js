@@ -50,7 +50,7 @@ function displayProducts(list) {
     const div = document.createElement('div');
     div.className = 'product-card';
     div.innerHTML = `
-      <img src="${p.image}" alt="${p.name}" onerror="this.src='/assets/logo.png'">
+      <img src="${p.image}" alt="${p.name}" onerror="this.src='/assets/logo.jpg'">
       <h3>${p.name}</h3>
       <p class="price">R ${p.price}</p>
       <div style="display:flex;gap:8px;margin-top:8px">

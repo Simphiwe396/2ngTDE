@@ -32,7 +32,7 @@ function renderCart() {
         const el = document.createElement('div');
         el.className = 'cart-item';
         el.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="cart-thumb" onerror="this.src='/assets/logo.png'">
+            <img src="${item.image}" alt="${item.name}" class="cart-thumb" onerror="this.src='/assets/logo.jpg'">
             <div class="cart-info">
                 <h3>${item.name}</h3>
                 <p>R ${item.price} × ${item.qty}</p>
