@@ -153,3 +153,33 @@
   pointer-events: none;
 }
 .site-toast.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* ================================
+   CUSTOM PAGE BACKGROUNDS
+   ================================ */
+
+.page-index {
+  background: url("img/backgrounds/background.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+.page-store {
+  background: url("img/backgrounds/backround2.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+.page-cart {
+  background: url("img/backgrounds/background4.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+.page-admin {
+  background: url("img/backgrounds/background5.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+.page-success {
+  background: url("img/backgrounds/background3.jpg") no-repeat center center;
+  background-size: cover;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
