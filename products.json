@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Golden Mirage",
+    "price": 899,
+    "image": "img/perfume1.jpg",
+    "category": "Perfume"
+  },
+  {
+    "name": "Velvet Noir",
+    "price": R1099,
+    "image": "img/perfume2.jpg",
+    "category": "Perfume"
+  },
+  {
+    "name": "Crystal Bloom",
+    "price": R749,
+    "image": "img/perfume3.jpg",
+    "category": "Perfume"
+  },
+  {
+    "name": "Fresh Face Wash",
+    "price": 139,
+    "image": "img/facewash1.jpg",
+    "category": "Face Wash"
+  },
+  {
+    "name": "Body Glow Lotion",
+    "price": R159,
+    "image": "img/lotion1.jpg",
+    "category": "Lotion"
+  },
+  {
+    "name": "Silk Straight Weave 16\\\"",
+    "price": R1500,
+    "image": "img/weave1.jpg",
+    "category": "Weave"
+  },
+  {
+    "name": "Aloe Body Spray",
+    "price": R119,
+    "image": "img/bodyspray1.jpg",
+    "category": "Body Spray"
+  }
+]

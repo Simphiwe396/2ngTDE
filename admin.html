@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel | Clinch Glow</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<script src="admin.js" defer></script>
+</head>
+
+<body>
+
+<header class="store-header">
+  <h1>Admin Panel</h1>
+  <p>Manage your product inventory</p>
+</header>
+
+<section class="admin-section">
+  <h2>Add New Product</h2>
+
+  <input id="name" placeholder="Product Name">
+  <input id="price" placeholder="Price" type="number">
+  <input id="image" placeholder="Image URL">
+  <input id="category" placeholder="Category">
+
+  <button onclick="addProduct()">Add Product</button>
+</section>
+
+<section>
+  <h2>All Products</h2>
+  <div id="product-list" class="admin-list"></div>
+</section>
+
+</body>
+</html>

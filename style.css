@@ -1,0 +1,276 @@
+/* GLOBAL STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #fafafa;
+  color: #222;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  border-radius: 10px;
+}
+
+/* HERO (homepage) */
+.hero {
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?fit=crop&w=1200&q=80') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-content {
+  background: rgba(255,255,255,0.06);
+  padding: 40px;
+  border-radius: 15px;
+  color: white;
+  backdrop-filter: blur(4px);
+  max-width: 800px;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #f3e9e0;
+}
+
+.store-btn {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  background: #ffdfb3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.store-btn:hover {
+  background: #ffcb80;
+}
+
+/* HEADER */
+.store-header {
+  text-align: center;
+  padding: 40px 20px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.store-header h1 {
+  font-size: 2.6rem;
+  margin-bottom: 6px;
+  color: #111;
+}
+
+.store-header p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* CART LINK IN HEADER */
+.cart-link {
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+  color: #111;
+  font-weight: 600;
+  background: #ffe7b3;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.cart-link:hover {
+  background: #ffcc66;
+}
+
+/* PRODUCT GRID */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 40px;
+}
+
+/* PRODUCT CARD */
+.product-card {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card h3 {
+  font-size: 1.3rem;
+  margin-top: 10px;
+}
+
+.category {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 8px;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* BUTTONS */
+.order-btn,
+.buy-btn {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: 0.3s ease;
+}
+
+.order-btn {
+  background: #111;
+  color: #fff;
+}
+
+.order-btn:hover {
+  background: #333;
+}
+
+.buy-btn {
+  background: #ffe7b3;
+}
+
+.buy-btn:hover {
+  background: #ffcc66;
+}
+
+/* CART PAGE */
+.cart-list {
+  padding: 30px;
+}
+
+.cart-item {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.cart-item button {
+  background: red;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cart-total {
+  padding: 30px;
+  text-align: center;
+}
+
+.checkout-btn {
+  background: #111;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background: #444;
+}
+
+/* CENTER PAGES: success/cancel */
+.center-page {
+  text-align: center;
+  padding-top: 100px;
+}
+
+.center-page h1 {
+  font-size: 2.6rem;
+  margin-bottom: 15px;
+}
+
+.center-page p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.center-page .btn {
+  padding: 12px 20px;
+  background: #111;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.center-page .btn:hover {
+  background: #444;
+}
+
+/* ADMIN PANEL */
+.admin-section {
+  padding: 40px;
+  text-align: center;
+}
+
+.admin-section input {
+  width: 260px;
+  padding: 10px;
+  margin: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.admin-list {
+  padding: 40px;
+}
+
+.admin-item {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.admin-item button {
+  background: red;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
