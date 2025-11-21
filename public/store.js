@@ -59,8 +59,8 @@ function buyNow(name, price) {
     let url = "https://www.payfast.co.za/eng/process?" +
         "merchant_id=" + merchant_id +
         "&merchant_key=" + merchant_key +
-        "&return_url=" + encodeURIComponent("https://yourwebsite.com/success.html") +
-        "&cancel_url=" + encodeURIComponent("https://yourwebsite.com/cancel.html") +
+        "&return_url=" + encodeURIComponent("https://twongtde-p9ng.onrender.com/success.html") +
+        "&cancel_url=" + encodeURIComponent("https://twongtde-p9ng.onrender.com/cancel.html") +
         "&m_payment_id=" + transaction_id +
         "&amount=" + amount +
         "&item_name=" + encodeURIComponent(name);
