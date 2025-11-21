@@ -61,6 +61,33 @@
   border-color: #ffc47a;
 }
 
+.admin-form input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.9);
+}
+
+.admin-btn {
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.admin-item {
+  background: rgba(255,255,255,0.85);
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+
 /* product grid */
 .product-grid {
   display: grid;
@@ -69,6 +96,15 @@
   align-items: start;
   margin-bottom: 40px;
 }
+
+body.page-admin::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(4px) brightness(0.75);
+  z-index: -1;
+}
+
 
 /* make grid responsive */
 @media (max-width: 1000px) {
@@ -182,4 +218,14 @@
   background: url("img/backgrounds/background3.jpg") no-repeat center center;
   background-size: cover;
   text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
+
+.store-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.filter-wrap {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
 }
