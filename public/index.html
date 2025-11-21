@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Clinch Glow</title>
-<link rel="stylesheet" href="style.css" />
-<link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Clinch Glow</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header class="hero">
-  <div class="hero-content">
-    <h1>Clinch Glow</h1>
-    <p>Discover Clinch Glow — a small but dynamic perfume store. Browse perfumes, face wash, body sprays, lotions and weaves. Click "Enter Store" to shop.</p>
-    <button class="store-btn" onclick="location.href='store.html'">Enter Store</button>
+<header class="store-header" style="position:sticky;top:0;z-index:50;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;">
+    <a href="index.html" style="text-decoration:none;color:#111;"><h2>Clinch Glow Admin</h2></a>
+    <a href="store.html" class="cart-link" style="text-decoration:none;">🛒 Store</a>
   </div>
 </header>
+
+<main style="max-width:1100px;margin:0 auto;padding:30px 20px;">
+
+  <h2 style="margin-bottom:14px;">Add / Edit Product</h2>
+
+  <div class="admin-form" style="background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);max-width:600px;">
+
+    <input type="hidden" id="edit-id">
+
+    <label>Name:</label>
+    <input type="text" id="p-name" placeholder="Product Name">
+
+    <label>Price:</label>
+    <input type="number" id="p-price" placeholder="Price" step="1" min="0">
+
+    <label>Image URL:</label>
+    <input type="text" id="p-image" placeholder="https://example.com/product.jpg">
+
+    <label>Category:</label>
+    <input type="text" id="p-category" placeholder="Perfume, Lotion, Body Spray, etc">
+
+    <button onclick="saveProduct()" class="admin-btn">Save Product</button>
+  </div>
+
+  <hr style="margin:40px 0;">
+
+  <h2>Product List</h2>
+  <div id="admin-product-list" style="margin-top:20px;"></div>
+
+</main>
+
+<script src="admin.js"></script>
 
 </body>
 </html>
