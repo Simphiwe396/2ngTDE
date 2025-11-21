@@ -1,0 +1,11 @@
+Original uploaded user files are available at these paths on the server (for your reference):
+/mnt/data/admin.html
+/mnt/data/admin.js
+/mnt/data/cart.html
+/mnt/data/cart.js
+/mnt/data/index.html
+/mnt/data/products.json
+/mnt/data/store.html
+/mnt/data/store.js
+/mnt/data/style.css
+/mnt/data/success.html
