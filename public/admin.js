@@ -1,83 +1,46 @@
-// admin.js — Full CRUD for Clinch Glow
-
-async function loadProducts() {
-    const res = await fetch("/api/products");
-    const products = await res.json();
-
-    const list = document.getElementById("admin-product-list");
+function loadProducts() {
+    let products = JSON.parse(localStorage.getItem("products") || "[]");
+    let list = document.getElementById("admin-product-list");
     list.innerHTML = "";
 
-    products.forEach(p => {
+    products.forEach((p, i) => {
+        let images = p.image.split(",").map(url => url.trim());
+
         list.innerHTML += `
-            <div class="admin-item" style="padding:14px;border-bottom:1px solid #ddd;margin-bottom:12px;">
-                <b>${p.name}</b> — R${Number(p.price).toFixed(2)}
-                <br>
-                <img src="${p.image}" style="width:70px;border-radius:8px;margin:6px 0;">
-                <br>
-                <i>${p.category || "No Category"}</i>
-                <br><br>
-                <button onclick="startEdit(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.image.replace(/'/g, "\\'")}', '${(p.category || "").replace(/'/g, "\\'")}')" class="admin-btn-edit">Edit</button>
-                <button onclick="deleteProduct(${p.id})" class="admin-btn-del">Delete</button>
+        <div class="admin-product-card">
+            <h3>${p.name}</h3>
+            <p><strong>R${p.price}</strong></p>
+
+            <div class="product-images">
+                ${images.map(img => `<img src="${img}">`).join("")}
             </div>
-        `;
+
+            <div class="admin-action-btns">
+                <button class="edit-btn" onclick="editProduct(${i})">Edit</button>
+                <button class="delete-btn" onclick="deleteProduct(${i})">Delete</button>
+            </div>
+        </div>`;
     });
 }
 
-function startEdit(id, name, price, image, category) {
-    document.getElementById("edit-id").value = id;
-    document.getElementById("p-name").value = name;
-    document.getElementById("p-price").value = price;
-    document.getElementById("p-image").value = image;
-    document.getElementById("p-category").value = category;
+function saveProduct() {
+    let name = document.getElementById("p-name").value;
+    let price = document.getElementById("p-price").value;
+    let images = document.getElementById("p-image").value;
+    let category = document.getElementById("p-category").value;
 
-    alert("Editing " + name);
-}
+    let products = JSON.parse(localStorage.getItem("products") || "[]");
 
-async function saveProduct() {
-    const id = document.getElementById("edit-id").value;
-    const name = document.getElementById("p-name").value;
-    const price = document.getElementById("p-price").value;
-    const image = document.getElementById("p-image").value;
-    const category = document.getElementById("p-category").value;
+    let editId = document.getElementById("edit-id").value;
 
-    if (!name || !price) {
-        alert("Name and price are required.");
-        return;
-    }
-
-    const body = { name, price, image, category };
-
-    let res;
-
-    if (id) {
-        // Update existing product
-        res = await fetch("/api/products/" + id, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-        });
-
-        if (res.ok) {
-            alert("Product updated!");
-        } else {
-            alert("Failed to update.");
-        }
+    if (editId) {
+        products[editId] = { name, price, image: images, category };
     } else {
-        // Add new product
-        res = await fetch("/api/products", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-        });
-
-        if (res.ok) {
-            alert("Product added!");
-        } else {
-            alert("Failed to add.");
-        }
+        products.push({ name, price, image: images, category });
     }
 
-    // Clear form
+    localStorage.setItem("products", JSON.stringify(products));
+
     document.getElementById("edit-id").value = "";
     document.getElementById("p-name").value = "";
     document.getElementById("p-price").value = "";
@@ -87,17 +50,22 @@ async function saveProduct() {
     loadProducts();
 }
 
-async function deleteProduct(id) {
-    if (!confirm("Delete this product?")) return;
+function editProduct(id) {
+    let products = JSON.parse(localStorage.getItem("products") || "[]");
+    let p = products[id];
 
-    const res = await fetch("/api/products/" + id, { method: "DELETE" });
+    document.getElementById("edit-id").value = id;
+    document.getElementById("p-name").value = p.name;
+    document.getElementById("p-price").value = p.price;
+    document.getElementById("p-image").value = p.image;
+    document.getElementById("p-category").value = p.category;
+}
 
-    if (res.ok) {
-        alert("Deleted!");
-        loadProducts();
-    } else {
-        alert("Error deleting.");
-    }
+function deleteProduct(id) {
+    let products = JSON.parse(localStorage.getItem("products") || "[]");
+    products.splice(id, 1);
+    localStorage.setItem("products", JSON.stringify(products));
+    loadProducts();
 }
 
 loadProducts();
