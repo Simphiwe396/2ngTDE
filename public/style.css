@@ -229,3 +229,147 @@ body.page-admin::before {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
 }
+
+/* --------------------------------------------
+   BLACK & GOLD LUXURY ADMIN THEME
+-------------------------------------------- */
+
+.page-admin {
+  background: #000 url("img/backgrounds/admin-bg.jpg") center/cover no-repeat fixed;
+  color: #f5f5f5;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.page-admin::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  z-index: -1;
+}
+
+/* HEADER */
+.admin-header {
+  text-align: center;
+  padding: 40px 20px;
+  color: gold;
+  text-shadow: 0 0 15px rgba(255,215,0,0.4);
+}
+
+.admin-header h1 {
+  font-size: 2.7rem;
+  margin-bottom: 10px;
+}
+
+.admin-back-link {
+  color: gold;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.admin-back-link:hover {
+  text-decoration: underline;
+}
+
+/* CARD CONTAINERS */
+.admin-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+.admin-card {
+  background: rgba(20,20,20,0.85);
+  border: 1px solid gold;
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 40px;
+  box-shadow: 0 0 25px rgba(255,215,0,0.15);
+  color: #fff;
+}
+
+/* INPUTS */
+.admin-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  background: rgba(10,10,10,0.8);
+  border: 1px solid #444;
+  border-radius: 10px;
+  color: gold;
+  font-weight: 500;
+}
+
+.admin-input:focus {
+  outline: none;
+  border-color: gold;
+  box-shadow: 0 0 10px gold;
+}
+
+/* BUTTONS */
+.admin-btn-gold {
+  background: gold;
+  color: #000;
+  border: none;
+  padding: 12px 16px;
+  font-weight: 900;
+  border-radius: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 0 20px rgba(255,215,0,0.3);
+  transition: 0.2s ease;
+}
+
+.admin-btn-gold:hover {
+  background: #ffd000;
+  box-shadow: 0 0 30px rgba(255,215,0,0.6);
+  transform: translateY(-2px);
+}
+
+/* PRODUCT LIST ITEMS */
+.admin-item {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid #333;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #fff;
+}
+
+.admin-item img {
+  width: 70px;
+  border-radius: 10px;
+  border: 1px solid gold;
+}
+
+.admin-btn-edit,
+.admin-btn-del {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  border: none;
+}
+
+.admin-btn-edit {
+  background: gold;
+  color: #000;
+  font-weight: 700;
+}
+.admin-btn-edit:hover {
+  background: #ffe066;
+}
+
+.admin-btn-del {
+  background: #ff3333;
+  color: #fff;
+  font-weight: 700;
+}
+.admin-btn-del:hover {
+  background: #cc0000;
+}

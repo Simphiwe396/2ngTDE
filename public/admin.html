@@ -3,33 +3,219 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin Panel | Clinch Glow</title>
+
+<!-- CSS -->
 <link rel="stylesheet" href="style.css">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<!-- JS -->
 <script src="admin.js" defer></script>
+
+<style>
+/* ================================
+   GENERAL ADMIN PAGE LAYOUT
+================================ */
+.page-admin {
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-header {
+    background: #000;
+    color: #f5d27b;
+    padding: 25px;
+    text-align: center;
+    border-bottom: 4px solid #f5d27b;
+}
+
+.admin-header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.admin-header p {
+    margin: 5px 0 15px;
+    font-size: 16px;
+    color: #e0e0e0;
+}
+
+.admin-back-link {
+    color: #f5d27b;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* ================================
+   ADMIN MAIN STRUCTURE
+================================ */
+.admin-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 30px;
+    justify-content: center;
+}
+
+.admin-card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 350px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.admin-card h2 {
+    margin-top: 0;
+    border-left: 5px solid #f5d27b;
+    padding-left: 10px;
+}
+
+/* ================================
+   INPUTS + BUTTONS
+================================ */
+.admin-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.admin-btn-gold {
+    width: 100%;
+    padding: 12px;
+    background: #f5d27b;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.admin-btn-gold:hover {
+    background: #e6c067;
+}
+
+/* ================================
+   PRODUCT LIST DISPLAY
+================================ */
+#admin-product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding-top: 10px;
+    justify-content: center;
+}
+
+.admin-product-card {
+    width: 280px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+    text-align: center;
+}
+
+.admin-product-card h3 {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+/* ================================
+   MULTIPLE IMAGES GRID
+================================ */
+.product-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.product-images img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* ================================
+   EDIT / DELETE BUTTONS
+================================ */
+.admin-action-btns {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: #3b82f6;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #2563eb;
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+</style>
+
 </head>
 
-<body class="page-admin">
+<body class="page-admin admin-theme">
 
-<header class="store-header">
-  <h1>Admin Panel</h1>
-  <p>Manage your product inventory</p>
+<header class="admin-header">
+    <h1>Clinch Glow Admin</h1>
+    <p>Inventory Management</p>
+    <a href="store.html" class="admin-back-link">← Back to Store</a>
 </header>
 
-<section class="admin-section">
-  <h2>Add New Product</h2>
+<main class="admin-wrapper">
 
-  <input id="name" placeholder="Product Name">
-  <input id="price" placeholder="Price" type="number">
-  <input id="image" placeholder="Image URL">
-  <input id="category" placeholder="Category">
+  <section class="admin-card">
+      <h2>Add / Edit Product</h2>
 
-  <button onclick="addProduct()">Add Product</button>
-</section>
+      <input type="hidden" id="edit-id">
 
-<section>
-  <h2>All Products</h2>
-  <div id="product-list" class="admin-list"></div>
-</section>
+      <label>Name</label>
+      <input id="p-name" class="admin-input" placeholder="Product Name">
+
+      <label>Price</label>
+      <input id="p-price" class="admin-input" type="number" placeholder="Price">
+
+      <label>Image URLs (Separate with commas)</label>
+      <input id="p-image" class="admin-input" placeholder="https://img1.jpg, https://img2.jpg">
+
+      <label>Category</label>
+      <input id="p-category" class="admin-input" placeholder="Perfume, Lotion, Body Spray">
+
+      <button onclick="saveProduct()" class="admin-btn-gold">Save Product</button>
+  </section>
+
+  <section class="admin-card">
+      <h2>All Products</h2>
+      <div id="admin-product-list" class="admin-list"></div>
+  </section>
+
+</main>
 
 </body>
 </html>
