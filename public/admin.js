@@ -1,4 +1,4 @@
-// Admin Panel - PostgreSQL Integration
+// Admin Panel - Product Management
 let editingProductId = null;
 
 // Auto-categorization rules
@@ -12,18 +12,15 @@ const categoryRules = {
   'weave': 'Weave'
 };
 
-// Load products from PostgreSQL
+// Load products from database
 async function loadProducts() {
   try {
     const response = await fetch('/api/products');
-    if (!response.ok) throw new Error('Failed to load products');
-    
     const products = await response.json();
     renderProductList(products);
   } catch (error) {
     console.error('Error loading products:', error);
     renderProductList([]);
-    alert('Error loading products from database');
   }
 }
 
@@ -33,35 +30,29 @@ function renderProductList(products) {
   listContainer.innerHTML = '';
   
   if (products.length === 0) {
-    listContainer.innerHTML = `
-      <div class="empty-message" style="text-align: center; padding: 40px; color: #666;">
-        <h3>No products yet</h3>
-        <p>Add your first product using the form!</p>
-      </div>
-    `;
+    listContainer.innerHTML = '<p class="empty-message">No products yet. Add your first product!</p>';
     return;
   }
   
   products.forEach(product => {
     const card = document.createElement('div');
     card.className = 'admin-product-card';
+    
     card.innerHTML = `
-      <div class="product-header" style="display: flex; gap: 15px; margin-bottom: 15px;">
+      <div class="admin-card-image">
         <img src="${product.image || 'img/placeholder.jpg'}" 
              alt="${product.name}"
-             style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
-        <div class="product-info" style="flex: 1;">
-          <h3 style="margin: 0 0 10px 0;">${product.name}</h3>
-          <p style="margin: 0 0 5px 0; font-size: 18px; font-weight: bold;">R${product.price.toFixed(2)}</p>
-          <p class="category-badge" style="display: inline-block; background: #f0f7ff; color: #0066cc; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin: 5px 5px 0 0;">
-            ${product.category || 'Other'}
-          </p>
-          ${product.brand ? `<p class="brand-badge" style="display: inline-block; background: #f0fff0; color: #006600; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin: 5px 0 0 0;">${product.brand}</p>` : ''}
-        </div>
+             onerror="this.src='img/placeholder.jpg'">
       </div>
-      <div class="admin-action-btns" style="display: flex; gap: 10px;">
-        <button class="edit-btn" onclick="editProduct('${product.id}')" style="flex: 1; padding: 8px; background: #f5d27b; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Edit</button>
-        <button class="delete-btn" onclick="deleteProduct('${product.id}')" style="flex: 1; padding: 8px; background: #ff4444; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Delete</button>
+      <div class="admin-card-info">
+        <h3>${product.name}</h3>
+        <p class="admin-card-price">R ${product.price.toFixed(2)}</p>
+        <p class="admin-card-category"><strong>Category:</strong> ${product.category || 'Other'}</p>
+        ${product.brand ? `<p class="admin-card-brand"><strong>Brand:</strong> ${product.brand}</p>` : ''}
+      </div>
+      <div class="admin-card-actions">
+        <button class="edit-btn" onclick="editProduct('${product.id}')">Edit</button>
+        <button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>
       </div>
     `;
     
@@ -88,10 +79,10 @@ function autoDetermineCategory(brand, name) {
     }
   }
   
-  return 'Other';
+  return document.getElementById('p-category').value || 'Other';
 }
 
-// Save product to PostgreSQL
+// Save product
 async function saveProduct() {
   const name = document.getElementById('p-name').value.trim();
   const price = parseFloat(document.getElementById('p-price').value);
@@ -134,8 +125,7 @@ async function saveProduct() {
     }
     
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to save product');
+      throw new Error('Failed to save product');
     }
     
     // Clear form
@@ -144,11 +134,11 @@ async function saveProduct() {
     // Reload products
     loadProducts();
     
-    alert('Product saved successfully to database!');
+    alert('Product saved successfully!');
     
   } catch (error) {
     console.error('Error saving product:', error);
-    alert('Error: ' + error.message);
+    alert('Error saving product. Please try again.');
   }
 }
 
@@ -156,20 +146,25 @@ async function saveProduct() {
 async function editProduct(productId) {
   try {
     const response = await fetch('/api/products');
-    if (!response.ok) throw new Error('Failed to load products');
-    
     const products = await response.json();
     const product = products.find(p => p.id == productId);
     
     if (product) {
       editingProductId = productId;
       
-      document.getElementById('edit-id').value = productId;
       document.getElementById('p-name').value = product.name || '';
       document.getElementById('p-price').value = product.price || '';
       document.getElementById('p-image').value = product.image || '';
       document.getElementById('p-category').value = product.category || '';
       document.getElementById('p-brand').value = product.brand || '';
+      
+      // Update brand button active state
+      document.querySelectorAll('.brand-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.includes(product.brand || '')) {
+          btn.classList.add('active');
+        }
+      });
       
       document.getElementById('p-name').focus();
     }
@@ -191,8 +186,7 @@ async function deleteProduct(productId) {
     });
     
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to delete product');
+      throw new Error('Failed to delete product');
     }
     
     alert('Product deleted successfully!');
@@ -205,35 +199,26 @@ async function deleteProduct(productId) {
     
   } catch (error) {
     console.error('Error deleting product:', error);
-    alert('Error: ' + error.message);
+    alert('Error deleting product. Please try again.');
   }
 }
 
 // Clear form
 function clearForm() {
   editingProductId = null;
-  document.getElementById('edit-id').value = '';
   document.getElementById('p-name').value = '';
   document.getElementById('p-price').value = '';
   document.getElementById('p-image').value = '';
   document.getElementById('p-category').value = '';
-  document.getElementById('p-brand').value = '';
-}
-
-// Brand selection
-function selectBrand(brand) {
-  document.getElementById('p-brand').value = brand;
+  document.getElementById('p-brand').value = 'Inuka';
+  
+  // Reset brand buttons
   document.querySelectorAll('.brand-btn').forEach(btn => {
     btn.classList.remove('active');
+    if (btn.textContent.includes('Inuka')) {
+      btn.classList.add('active');
+    }
   });
-  event.target.classList.add('active');
-  
-  // Auto-set category based on brand
-  if (brand === 'Inuka') {
-    document.getElementById('p-category').value = 'Perfume';
-  } else if (brand === 'Clinch Glow') {
-    document.getElementById('p-category').value = 'Lotion';
-  }
 }
 
 // Initialize admin panel

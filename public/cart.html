@@ -6,34 +6,221 @@
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="site.webmanifest">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
-<!-- Stripe.js -->
-<script src="https://js.stripe.com/v3/"></script>
-<!-- Firebase Config -->
-<script src="firebase-config.js" defer></script>
-<!-- Payment System -->
-<script src="firebase-payments.js" defer></script>
 <style>
-/* Cart styles */
-.cart-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-.cart-content { display: grid; grid-template-columns: 1fr 350px; gap: 30px; }
-.cart-items { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-.cart-summary { background: #000; color: white; padding: 25px; border-radius: 15px; position: sticky; top: 20px; }
-.cart-summary h2 { color: #f5d27b; margin-bottom: 20px; text-align: center; }
-.summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.total-row { font-size: 1.5rem; font-weight: bold; color: #f5d27b; border-bottom: 2px solid #f5d27b; padding-bottom: 15px; }
-.checkout-btn { background: #f5d27b; color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; margin-top: 20px; }
-.checkout-btn:hover { background: #ffd95c; transform: translateY(-2px); }
-.checkout-btn:disabled { background: #666; cursor: not-allowed; transform: none; }
-.continue-shopping { display: block; text-align: center; color: #f5d27b; margin-top: 15px; text-decoration: none; }
-.payment-methods { margin-top: 20px; text-align: center; }
-.payment-icons { display: flex; justify-content: center; gap: 15px; margin-top: 10px; font-size: 24px; }
-.empty-cart { text-align: center; padding: 50px 20px; }
-@media (max-width: 768px) { .cart-content { grid-template-columns: 1fr; } }
+.cart-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 70vh;
+}
+
+.cart-header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #000;
+}
+
+.cart-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cart-items {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 20px;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-image {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.cart-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-item-details h3 {
+  margin: 0 0 10px;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.cart-item-category {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.cart-item-brand {
+  color: #888;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.cart-item-quantity button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item-quantity span {
+  min-width: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.cart-item-price {
+  text-align: right;
+}
+
+.cart-item-price p {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #000;
+  margin: 0 0 10px;
+}
+
+.remove-item {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cart-summary {
+  background: #000;
+  color: white;
+  border-radius: 15px;
+  padding: 25px;
+  position: sticky;
+  top: 20px;
+}
+
+.cart-summary h2 {
+  color: #f5d27b;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.summary-details {
+  margin-bottom: 30px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.total-row {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f5d27b;
+  border-bottom: 2px solid #f5d27b;
+  padding-bottom: 15px;
+}
+
+.checkout-btn {
+  background: #f5d27b;
+  color: #000;
+  border: none;
+  padding: 15px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.checkout-btn:hover {
+  background: #ffd95c;
+  transform: translateY(-2px);
+}
+
+.continue-shopping {
+  display: block;
+  text-align: center;
+  color: #f5d27b;
+  margin-top: 15px;
+  text-decoration: none;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.empty-cart h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.empty-cart p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.back-to-store {
+  display: inline-block;
+  background: #000;
+  color: #f5d27b;
+  padding: 12px 30px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+}
 </style>
 </head>
 
@@ -41,7 +228,7 @@
 <div class="cart-container">
   <header class="cart-header">
     <h1>Your Shopping Cart</h1>
-    <p>Review your items and proceed to secure checkout</p>
+    <p>Review your items and proceed to checkout</p>
   </header>
 
   <div class="cart-content">
@@ -67,22 +254,12 @@
         </div>
       </div>
       
-      <div class="payment-methods">
-        <p style="font-size: 14px; color: #ccc; margin-bottom: 10px;">Secure payment powered by</p>
-        <div class="payment-icons">
-          <span>💳</span>
-          <span>🔐</span>
-          <span>🏦</span>
-        </div>
-        <p style="font-size: 12px; color: #aaa; margin-top: 10px;">All transactions are encrypted and secure</p>
-      </div>
-      
-      <button class="checkout-btn" onclick="checkout()">Proceed to Secure Checkout</button>
+      <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
       <a href="/" class="continue-shopping">← Continue Shopping</a>
     </div>
   </div>
 </div>
 
-<script src="cart.js" defer></script>
+<script src="cart.js"></script>
 </body>
 </html>

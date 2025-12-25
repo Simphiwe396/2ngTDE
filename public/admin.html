@@ -3,222 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin Panel | Clinch Glow</title>
-
-<!-- CSS -->
 <link rel="stylesheet" href="style.css">
-<link rel="manifest" href="/site.webmanifest">
+<link rel="manifest" href="site.webmanifest">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-
-<!-- JS -->
 <script src="admin.js" defer></script>
-
 <style>
-/* ================================
-   GENERAL ADMIN PAGE LAYOUT
-================================ */
-.page-admin {
-    font-family: Arial, sans-serif;
-    background: #fafafa;
-    margin: 0;
-    padding: 0;
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .admin-header {
-    background: #000;
-    color: #f5d27b;
-    padding: 25px;
-    text-align: center;
-    border-bottom: 4px solid #f5d27b;
+  background: linear-gradient(135deg, #000 0%, #222 100%);
+  color: #f5d27b;
+  padding: 30px;
+  text-align: center;
+  border-bottom: 3px solid #f5d27b;
+  margin-bottom: 30px;
 }
 
-.admin-header h1 {
-    margin: 0;
-    font-size: 32px;
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
-.admin-header p {
-    margin: 5px 0 15px;
-    font-size: 16px;
-    color: #e0e0e0;
-}
-
-.admin-back-link {
-    color: #f5d27b;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-/* ================================
-   ADMIN MAIN STRUCTURE
-================================ */
-.admin-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    padding: 30px;
-    justify-content: center;
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .admin-card {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    width: 350px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
-.admin-card h2 {
-    margin-top: 0;
-    border-left: 5px solid #f5d27b;
-    padding-left: 10px;
+.form-group {
+  margin-bottom: 20px;
 }
 
-/* ================================
-   INPUTS + BUTTONS
-================================ */
-.admin-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    margin-bottom: 15px;
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 5px;
 }
 
-.admin-btn-gold {
-    width: 100%;
-    padding: 12px;
-    background: #f5d27b;
-    border: none;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+.brand-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.admin-btn-gold:hover {
-    background: #e6c067;
+.brand-btn {
+  padding: 10px 20px;
+  background: #f5f5f5;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
-/* ================================
-   PRODUCT LIST DISPLAY
-================================ */
-#admin-product-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    padding-top: 10px;
-    justify-content: center;
+.brand-btn.active {
+  background: #f5d27b;
+  border-color: #f5d27b;
+  color: #000;
+}
+
+.btn-primary {
+  background: #000;
+  color: #f5d27b;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.product-grid-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .admin-product-card {
-    width: 280px;
-    padding: 15px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.10);
-    text-align: center;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
-.admin-product-card h3 {
-    margin-top: 10px;
-    font-size: 20px;
+.admin-card-image {
+  height: 200px;
+  overflow: hidden;
 }
 
-/* ================================
-   MULTIPLE IMAGES GRID
-================================ */
-.product-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 8px;
-    margin-top: 10px;
+.admin-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.product-images img {
-    width: 100%;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+.admin-card-info {
+  padding: 15px;
 }
 
-/* ================================
-   EDIT / DELETE BUTTONS
-================================ */
-.admin-action-btns {
-    margin-top: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+.admin-card-actions {
+  padding: 15px;
+  background: #f9f9f9;
+  display: flex;
+  gap: 10px;
 }
 
 .edit-btn, .delete-btn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .edit-btn {
-    background: #3b82f6;
-    color: white;
-}
-
-.edit-btn:hover {
-    background: #2563eb;
+  background: #f5d27b;
+  color: #000;
 }
 
 .delete-btn {
-    background: #dc2626;
-    color: white;
-}
-
-.delete-btn:hover {
-    background: #b91c1c;
+  background: #ff4444;
+  color: white;
 }
 </style>
-
 </head>
 
-<body class="page-admin admin-theme">
+<body class="page-admin">
+<div class="admin-container">
+  <header class="admin-header">
+    <h1>Clinch Glow Admin Panel</h1>
+    <p>Easily manage products with auto-categorization</p>
+    <a href="/" style="color: #f5d27b; text-decoration: none; font-weight: bold;">← Back to Store</a>
+  </header>
 
-<header class="admin-header">
-    <h1>Clinch Glow Admin</h1>
-    <p>Inventory Management</p>
-    <a href="/" class="admin-back-link">← Back to Store</a>
-</header>
-
-<main class="admin-wrapper">
-
-  <section class="admin-card">
+  <div class="admin-grid">
+    <!-- Add Product Form -->
+    <section class="admin-card">
       <h2>Add / Edit Product</h2>
+      
+      <div class="form-group">
+        <label>Product Name *</label>
+        <input type="text" id="p-name" class="form-control" placeholder="Enter product name" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Price (R) *</label>
+        <input type="number" id="p-price" class="form-control" placeholder="Enter price" step="0.01" min="0" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="text" id="p-image" class="form-control" placeholder="img/product-name.jpg">
+        <small>Place images in /img/ folder and use: img/filename.jpg</small>
+      </div>
+      
+      <div class="form-group">
+        <label>Brand (Auto-categorizes product)</label>
+        <div class="brand-buttons">
+          <button class="brand-btn active" onclick="selectBrand('Inuka')">Inuka → Perfume</button>
+          <button class="brand-btn" onclick="selectBrand('Clinch Glow')">Clinch Glow → Lotion</button>
+          <button class="brand-btn" onclick="selectBrand('Other')">Other</button>
+        </div>
+        <input type="hidden" id="p-brand" value="Inuka">
+      </div>
+      
+      <div class="form-group">
+        <label>Category</label>
+        <select id="p-category" class="form-control">
+          <option value="">Auto-select based on brand</option>
+          <option value="Perfume">Perfume</option>
+          <option value="Lotion">Lotion</option>
+          <option value="Face Wash">Face Wash</option>
+          <option value="Body Spray">Body Spray</option>
+          <option value="Weave">Weave</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      
+      <button class="btn-primary" onclick="saveProduct()">Save Product</button>
+    </section>
+    
+    <!-- Product List -->
+    <section class="admin-card">
+      <h2>Manage Products</h2>
+      <div id="admin-product-list" class="product-grid-admin">
+        <!-- Products loaded here -->
+      </div>
+    </section>
+  </div>
+</div>
 
-      <input type="hidden" id="edit-id">
-
-      <label>Name</label>
-      <input id="p-name" class="admin-input" placeholder="Product Name">
-
-      <label>Price</label>
-      <input id="p-price" class="admin-input" type="number" placeholder="Price">
-
-      <label>Image URLs (Separate with commas)</label>
-      <input id="p-image" class="admin-input" placeholder="https://img1.jpg, https://img2.jpg">
-
-      <label>Category</label>
-      <input id="p-category" class="admin-input" placeholder="Perfume, Lotion, Body Spray">
-
-      <button onclick="saveProduct()" class="admin-btn-gold">Save Product</button>
-  </section>
-
-  <section class="admin-card">
-      <h2>All Products</h2>
-      <div id="admin-product-list" class="admin-list"></div>
-  </section>
-
-</main>
-
+<script>
+function selectBrand(brand) {
+  document.getElementById('p-brand').value = brand;
+  document.querySelectorAll('.brand-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  // Auto-set category
+  if (brand === 'Inuka') {
+    document.getElementById('p-category').value = 'Perfume';
+  } else if (brand === 'Clinch Glow') {
+    document.getElementById('p-category').value = 'Lotion';
+  } else {
+    document.getElementById('p-category').value = 'Other';
+  }
+}
+</script>
 </body>
 </html>
