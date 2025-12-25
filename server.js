@@ -281,9 +281,20 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
-// All other routes to homepage
+// ALL ROUTES - STORE IS HOMEPAGE
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  // If root or index.html, serve store.html
+  if (req.path === '/' || req.path === '/index.html') {
+    res.sendFile(path.join(__dirname, 'public', 'store.html'));
+  }
+  // For all other HTML/CSS/JS files, serve normally
+  else if (req.path.endsWith('.html') || req.path.endsWith('.css') || req.path.endsWith('.js') || req.path.endsWith('.json')) {
+    res.sendFile(path.join(__dirname, 'public', req.path));
+  }
+  // Default to store.html
+  else {
+    res.sendFile(path.join(__dirname, 'public', 'store.html'));
+  }
 });
 
 const port = process.env.PORT || 3000;

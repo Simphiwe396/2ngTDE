@@ -6,17 +6,6 @@
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="site.webmanifest">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
-<!-- Stripe.js -->
-<script src="https://js.stripe.com/v3/"></script>
-<!-- Firebase Config -->
-<script src="firebase-config.js" defer></script>
-<!-- Payment System -->
-<script src="firebase-payments.js" defer></script>
 <style>
 /* Cart styles */
 .cart-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
@@ -78,11 +67,12 @@
       </div>
       
       <button class="checkout-btn" onclick="checkout()">Proceed to Secure Checkout</button>
-      <a href="index.html" class="continue-shopping">← Continue Shopping</a>
+      <!-- CHANGED: Back to / (homepage) instead of index.html -->
+      <a href="/" class="continue-shopping">← Continue Shopping</a>
     </div>
   </div>
 </div>
 
-<script src="cart.js" defer></script>
+<script src="cart.js"></script>
 </body>
 </html>
