@@ -281,9 +281,9 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
-// ALL ROUTES - STORE IS HOMEPAGE
+// ALL ROUTES - STORE.HTML IS HOMEPAGE
 app.get('*', (req, res) => {
-  // If root or index.html, serve store.html
+  // If root URL or index.html, serve store.html as homepage
   if (req.path === '/' || req.path === '/index.html') {
     res.sendFile(path.join(__dirname, 'public', 'store.html'));
   }
@@ -291,7 +291,7 @@ app.get('*', (req, res) => {
   else if (req.path.endsWith('.html') || req.path.endsWith('.css') || req.path.endsWith('.js') || req.path.endsWith('.json')) {
     res.sendFile(path.join(__dirname, 'public', req.path));
   }
-  // Default to store.html
+  // Default to store.html for any other route
   else {
     res.sendFile(path.join(__dirname, 'public', 'store.html'));
   }
