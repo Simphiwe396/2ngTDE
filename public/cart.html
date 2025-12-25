@@ -2,24 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Your Cart | Clinch Glow</title>
+<title>Your Shopping Cart | Clinch Glow</title>
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="site.webmanifest">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<script src="cart.js" defer></script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+<!-- Firebase Config -->
+<script src="firebase-config.js" defer></script>
+<!-- Payment System -->
+<script src="firebase-payments.js" defer></script>
+<style>
+/* Cart styles */
+.cart-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+.cart-content { display: grid; grid-template-columns: 1fr 350px; gap: 30px; }
+.cart-items { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.cart-summary { background: #000; color: white; padding: 25px; border-radius: 15px; position: sticky; top: 20px; }
+.cart-summary h2 { color: #f5d27b; margin-bottom: 20px; text-align: center; }
+.summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.total-row { font-size: 1.5rem; font-weight: bold; color: #f5d27b; border-bottom: 2px solid #f5d27b; padding-bottom: 15px; }
+.checkout-btn { background: #f5d27b; color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; margin-top: 20px; }
+.checkout-btn:hover { background: #ffd95c; transform: translateY(-2px); }
+.checkout-btn:disabled { background: #666; cursor: not-allowed; transform: none; }
+.continue-shopping { display: block; text-align: center; color: #f5d27b; margin-top: 15px; text-decoration: none; }
+.payment-methods { margin-top: 20px; text-align: center; }
+.payment-icons { display: flex; justify-content: center; gap: 15px; margin-top: 10px; font-size: 24px; }
+.empty-cart { text-align: center; padding: 50px 20px; }
+@media (max-width: 768px) { .cart-content { grid-template-columns: 1fr; } }
+</style>
 </head>
 
 <body class="page-cart">
+<div class="cart-container">
+  <header class="cart-header">
+    <h1>Your Shopping Cart</h1>
+    <p>Review your items and proceed to secure checkout</p>
+  </header>
 
-<header class="store-header">
-  <h1>Your Cart</h1>
-</header>
+  <div class="cart-content">
+    <div class="cart-items" id="cart-items">
+      <!-- Cart items loaded here -->
+    </div>
 
-<section id="cart-items" class="cart-list"></section>
-
-<div class="cart-total">
-  <h2>Total: R<span id="total-price">0</span></h2>
-  <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    <div class="cart-summary">
+      <h2>Order Summary</h2>
+      <div class="summary-details">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>R <span id="subtotal-price">0.00</span></span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>R <span id="shipping-price">99.00</span></span>
+          <small style="font-size: 12px; color: #f5d27b;">(Free over R500)</small>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <span>R <span id="total-price">0.00</span></span>
+        </div>
+      </div>
+      
+      <div class="payment-methods">
+        <p style="font-size: 14px; color: #ccc; margin-bottom: 10px;">Secure payment powered by</p>
+        <div class="payment-icons">
+          <span>💳</span>
+          <span>🔐</span>
+          <span>🏦</span>
+        </div>
+        <p style="font-size: 12px; color: #aaa; margin-top: 10px;">All transactions are encrypted and secure</p>
+      </div>
+      
+      <button class="checkout-btn" onclick="checkout()">Proceed to Secure Checkout</button>
+      <a href="index.html" class="continue-shopping">← Continue Shopping</a>
+    </div>
+  </div>
 </div>
 
+<script src="cart.js" defer></script>
 </body>
 </html>

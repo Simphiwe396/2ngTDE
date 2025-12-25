@@ -1,159 +1,209 @@
-// store.js — improved layout-friendly version
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// Clinch Glow Store - Main Store Functionality
+let cart = JSON.parse(localStorage.getItem("clinchCart")) || [];
+let allProducts = [];
 
+// Update cart count
 function updateCartCount() {
-  const el = document.getElementById("cart-count");
-  if (el) el.innerText = cart.length;
+  const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+  const cartElements = document.querySelectorAll('#cart-count');
+  cartElements.forEach(el => {
+    if (el) el.textContent = cartCount;
+  });
 }
 
-// Safe product object for cart (only fields we need)
-function cartProduct(p) {
-  return {
-    id: p.id ?? null,
-    name: p.name ?? "",
-    price: Number(p.price || 0),
-    image: p.image || "img/placeholder.jpg",
-    category: p.category || "Other"
-  };
-}
-
+// Fetch products from server API
 async function fetchProducts() {
   try {
-    const res = await fetch("/api/products");
-    if (!res.ok) throw new Error("API error");
-    const data = await res.json();
-    return data;
-  } catch (e) {
-    console.warn("API failed, falling back to local products.json", e);
+    const response = await fetch('/api/products');
+    if (!response.ok) throw new Error('API error');
+    const products = await response.json();
+    allProducts = products;
+    return products;
+  } catch (error) {
+    console.warn('API failed, using localStorage backup', error);
+    
+    // Try localStorage backup
     try {
-      const local = await fetch("products.json");
-      return await local.json();
+      const localProducts = JSON.parse(localStorage.getItem('clinchProducts')) || [];
+      if (localProducts.length > 0) {
+        allProducts = localProducts;
+        return localProducts;
+      }
+    } catch (e) {
+      console.log('Local storage empty');
+    }
+    
+    // Try default products.json
+    try {
+      const response = await fetch('products.json');
+      const defaultProducts = await response.json();
+      allProducts = defaultProducts;
+      return defaultProducts;
     } catch (err) {
-      console.error("Failed to load products", err);
+      console.error('Failed to load products', err);
       return [];
     }
   }
 }
 
-function renderFilterBar(categories) {
-  const wrap = document.getElementById("filter-wrap");
-  wrap.innerHTML = '';
-  const frag = document.createElement('div');
-  frag.className = 'filter-bar';
-  categories.forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn';
-    btn.innerText = cat;
-    btn.dataset.cat = cat;
-    btn.onclick = () => loadProducts(cat);
-    frag.appendChild(btn);
+// Create filter buttons
+function createFilterButtons(categories) {
+  const filterWrap = document.getElementById('filter-wrap');
+  filterWrap.innerHTML = '';
+
+  const filterBar = document.createElement('div');
+  filterBar.className = 'filter-bar';
+
+  // All button
+  const allButton = document.createElement('button');
+  allButton.className = 'filter-btn active';
+  allButton.textContent = 'All';
+  allButton.onclick = () => filterProducts('All');
+  filterBar.appendChild(allButton);
+
+  // Category buttons
+  categories.forEach(category => {
+    const button = document.createElement('button');
+    button.className = 'filter-btn';
+    button.textContent = category;
+    button.onclick = () => filterProducts(category);
+    filterBar.appendChild(button);
   });
-  wrap.appendChild(frag);
+
+  filterWrap.appendChild(filterBar);
 }
 
-async function loadProducts(filter = "All") {
-  const products = await fetchProducts();
-  const cats = ["All", ...Array.from(new Set(products.map(p => p.category || "Other")))];
+// Filter products
+function filterProducts(category) {
+  const buttons = document.querySelectorAll('.filter-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
 
-  renderFilterBar(cats);
-
-  const grid = document.getElementById("product-grid");
-  grid.innerHTML = '';
-
-  let list = products;
-  if (filter && filter !== "All") {
-    list = products.filter(p => (p.category || "") === filter);
+  const grid = document.getElementById('product-grid');
+  
+  if (category === 'All') {
+    displayProducts(allProducts);
+  } else {
+    const filtered = allProducts.filter(product => 
+      product.category === category
+    );
+    displayProducts(filtered);
   }
+}
 
-  if (!list || list.length === 0) {
-    grid.innerHTML = `<p class="empty-msg">No products found.</p>`;
-    updateCartCount();
+// Display products
+function displayProducts(products) {
+  const grid = document.getElementById('product-grid');
+  
+  if (products.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><p>No products found in this category.</p></div>';
     return;
   }
 
-  list.forEach(p => {
-    const prod = {
-      id: p.id ?? null,
-      name: p.name,
-      price: Number(p.price),
-      image: p.image || "img/placeholder.jpg",
-      category: p.category || ""
-    };
-
-    const card = document.createElement('article');
+  grid.innerHTML = '';
+  
+  products.forEach(product => {
+    const card = document.createElement('div');
     card.className = 'product-card';
-
+    
+    // Format price
+    const price = typeof product.price === 'number' ? product.price.toFixed(2) : parseFloat(product.price || 0).toFixed(2);
+    
     card.innerHTML = `
-      <div class="product-media">
-        <img src="${prod.image}" alt="${escapeHtml(prod.name)}" onerror="this.src='img/placeholder.jpg'">
+      <div class="product-image">
+        <img src="${product.image}" alt="${product.name}" 
+             onerror="this.src='img/placeholder.jpg'">
+        ${product.brand ? `<span class="product-brand">${product.brand}</span>` : ''}
       </div>
-      <div class="product-body">
-        <h3>${escapeHtml(prod.name)}</h3>
-        <p class="category">${escapeHtml(prod.category)}</p>
-        <p class="price">R${prod.price.toFixed(2)}</p>
+      <div class="product-info">
+        <h3>${product.name}</h3>
+        <p class="product-category">${product.category || 'General'}</p>
+        <p class="product-price">R ${price}</p>
       </div>
       <div class="product-actions">
-        <button class="order-btn">Add to Cart</button>
-        <button class="buy-btn">Buy Now</button>
+        <button class="add-to-cart" data-id="${product.id || product.name}">Add to Cart</button>
+        <button class="buy-now" data-id="${product.id || product.name}">Buy Now</button>
       </div>
     `;
-
-    // attach behaviors
-    card.querySelector('.order-btn').addEventListener('click', () => {
-      const cp = cartProduct(prod);
-      cart.push(cp);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartCount();
-      showToast(`${prod.name} added to cart`);
-    });
-
-    card.querySelector('.buy-btn').addEventListener('click', () => {
-      buyNow(encodeURIComponent(prod.name), prod.price);
-    });
-
+    
+    // Add event listeners
+    const addToCartBtn = card.querySelector('.add-to-cart');
+    const buyNowBtn = card.querySelector('.buy-now');
+    
+    addToCartBtn.addEventListener('click', () => addToCart(product));
+    buyNowBtn.addEventListener('click', () => buyNow(product));
+    
     grid.appendChild(card);
   });
-
-  updateCartCount();
 }
 
-// Escape helper to avoid breaking HTML
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-function showToast(msg) {
-  // simple transient toast
-  let t = document.getElementById('site-toast');
-  if (!t) {
-    t = document.createElement('div');
-    t.id = 'site-toast';
-    t.className = 'site-toast';
-    document.body.appendChild(t);
+// Add to cart
+function addToCart(product) {
+  const existingItem = cart.find(item => 
+    item.id === product.id || item.name === product.name
+  );
+  
+  if (existingItem) {
+    existingItem.quantity = (existingItem.quantity || 1) + 1;
+  } else {
+    cart.push({
+      id: product.id || Date.now(),
+      name: product.name,
+      price: parseFloat(product.price),
+      image: product.image,
+      category: product.category,
+      brand: product.brand,
+      quantity: 1
+    });
   }
-  t.innerText = msg;
-  t.classList.add('visible');
-  clearTimeout(t._hide);
-  t._hide = setTimeout(() => t.classList.remove('visible'), 2200);
+  
+  localStorage.setItem('clinchCart', JSON.stringify(cart));
+  updateCartCount();
+  showNotification(`${product.name} added to cart!`);
 }
 
-function buyNow(nameEncoded, price) {
-  const amount = Number(price).toFixed(2);
-  const merchant_id = "10043743";
-  const merchant_key = "7t8eg1prjfj0m";
-  const base = (window.location.protocol === 'https:') ? 'https://sandbox.payfast.co.za/eng/process' : 'https://sandbox.payfast.co.za/eng/process';
-  const url = `${base}?merchant_id=${merchant_id}&merchant_key=${merchant_key}&amount=${amount}&item_name=${nameEncoded}&return_url=${encodeURIComponent(window.location.origin + '/success.html')}&cancel_url=${encodeURIComponent(window.location.origin + '/store.html')}`;
-  // clear local cart (user intent was to buy single item)
-  localStorage.removeItem('cart');
-  window.location.href = url;
+// Buy now
+function buyNow(product) {
+  addToCart(product);
+  window.location.href = 'cart.html';
 }
 
-// initialize
-loadProducts();
-updateCartCount();
+// Show notification
+function showNotification(message) {
+  const toast = document.getElementById('site-toast');
+  if (toast) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+}
+
+// Initialize store
+async function initStore() {
+  try {
+    const products = await fetchProducts();
+    
+    // Get unique categories
+    const categories = [...new Set(products.map(p => p.category || 'General'))];
+    
+    // Create filter buttons
+    createFilterButtons(categories);
+    
+    // Display all products
+    displayProducts(products);
+    
+    // Update cart count
+    updateCartCount();
+    
+  } catch (error) {
+    console.error('Error initializing store:', error);
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '<div class="empty-state"><p>Error loading products. Please try again later.</p></div>';
+  }
+}
+
+// Start the store
+document.addEventListener('DOMContentLoaded', initStore);

@@ -2,18 +2,223 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Payment Successful | Clinch Glow</title>
+<title>Order Confirmed | Clinch Glow</title>
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="site.webmanifest">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+<style>
+.success-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.success-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  color: #4CAF50;
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.order-details {
+  background: #f9f9f9;
+  border-radius: 15px;
+  padding: 25px;
+  margin: 25px 0;
+  text-align: left;
+  border-left: 5px solid #f5d27b;
+}
+
+.order-details h3 {
+  margin-top: 0;
+  color: #000;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.btn-success {
+  display: inline-block;
+  background: #000;
+  color: #f5d27b;
+  padding: 15px 40px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 10px;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-success:hover {
+  background: #222;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #000;
+  color: #000;
+}
+
+.btn-outline:hover {
+  background: #000;
+  color: #f5d27b;
+}
+
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #f5d27b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.receipt-actions {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #eee;
+}
+
+.receipt-actions button {
+  background: #f5d27b;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 5px;
+}
+</style>
 </head>
 
-<body class="center-page page-success">
+<body class="page-success">
+<div class="success-container">
+  <div class="success-icon">✓</div>
+  <h1>🎉 Order Confirmed!</h1>
+  <p>Thank you for shopping with <strong>Clinch Glow</strong>.</p>
+  <p>Your payment was successful and your order is being processed.</p>
+  
+  <div class="order-details" id="order-details">
+    <h3>📋 Order Information</h3>
+    <div class="detail-row">
+      <span><strong>Order Number:</strong></span>
+      <span id="order-number">Loading...</span>
+    </div>
+    <div class="detail-row">
+      <span><strong>Status:</strong></span>
+      <span id="order-status" style="color: #4CAF50; font-weight: bold;">Processing</span>
+    </div>
+    <div class="detail-row">
+      <span><strong>Total Amount:</strong></span>
+      <span id="order-amount" style="font-weight: bold;">R 0.00</span>
+    </div>
+    <div class="detail-row">
+      <span><strong>Email Sent:</strong></span>
+      <span id="order-email">Loading...</span>
+    </div>
+  </div>
+  
+  <div class="receipt-actions">
+    <button onclick="printReceipt()">🖨️ Print Receipt</button>
+    <button onclick="emailReceipt()">📧 Email Receipt</button>
+  </div>
+  
+  <p style="color: #666; font-size: 14px; margin-top: 25px;">
+    You will receive a confirmation email shortly. For any questions, contact 
+    <a href="mailto:support@clinchglow.com" style="color: #f5d27b; text-decoration: none;">support@clinchglow.com</a>
+  </p>
+  
+  <div style="margin-top: 40px;">
+    <a href="index.html" class="btn-success">🛒 Continue Shopping</a>
+    <a href="mailto:support@clinchglow.com" class="btn-success btn-outline">📞 Contact Support</a>
+  </div>
+</div>
 
-<h1>🎉 Payment Successful!</h1>
-<p>Thank you for shopping at <strong>Clinch Glow</strong>.</p>
-<p>Your order is being processed. We will contact you shortly.</p>
+<script>
+// Get order details from URL
+const urlParams = new URLSearchParams(window.location.search);
+const orderNumber = urlParams.get('order');
+const customerEmail = urlParams.get('email');
 
-<a href="store.html" class="btn">Continue Shopping</a>
+// Clear cart
+localStorage.removeItem('clinchCart');
 
+// Update UI with order details
+if (orderNumber) {
+  document.getElementById('order-number').textContent = orderNumber;
+  document.getElementById('order-number').style.fontWeight = 'bold';
+  document.getElementById('order-number').style.color = '#000';
+}
+
+if (customerEmail) {
+  document.getElementById('order-email').textContent = customerEmail;
+}
+
+// Get last order amount from localStorage
+const lastOrderAmount = localStorage.getItem('lastOrderAmount');
+if (lastOrderAmount) {
+  document.getElementById('order-amount').textContent = 'R ' + lastOrderAmount;
+}
+
+// Helper functions
+function printReceipt() {
+  window.print();
+}
+
+function emailReceipt() {
+  const email = customerEmail || prompt('Enter email to send receipt:');
+  if (email) {
+    alert(`Receipt sent to ${email}`);
+  }
+}
+
+// Store order details for future reference
+if (orderNumber && customerEmail) {
+  const orderDetails = {
+    orderNumber,
+    customerEmail,
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString()
+  };
+  
+  // Save to localStorage
+  localStorage.setItem('lastOrder', JSON.stringify(orderDetails));
+}
+</script>
 </body>
 </html>

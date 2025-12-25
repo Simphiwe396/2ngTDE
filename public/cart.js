@@ -1,15 +1,16 @@
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// REAL PAYMENTS - PAYFAST
+let cart = JSON.parse(localStorage.getItem('clinchCart')) || [];
 
 function renderCart() {
-    let container = document.getElementById("cart-items");
+    const container = document.getElementById("cart-items");
     container.innerHTML = "";
-
+    
     if (cart.length === 0) {
         container.innerHTML = "<p>Your cart is empty.</p>";
         document.getElementById("total-price").innerText = "0.00";
         return;
     }
-
+    
     cart.forEach((item, index) => {
         container.innerHTML += `
             <div class="cart-item">
@@ -20,8 +21,8 @@ function renderCart() {
             </div>
         `;
     });
-
-    const total = cart.reduce((a, b) => a + Number(b.price), 0);
+    
+    const total = cart.reduce((a, b) => a + Number(b.price * (b.quantity || 1)), 0);
     document.getElementById("total-price").innerText = total.toFixed(2);
 }
 
@@ -31,21 +32,37 @@ function removeItem(i) {
     renderCart();
 }
 
+// REAL PAYFAST CHECKOUT - WORKS NOW
 function checkout() {
     if (cart.length < 1) return alert("Cart is empty!");
-
-    const total = cart.reduce((a, b) => a + Number(b.price), 0).toFixed(2);
-
-    // Clear cart before redirect
-    localStorage.removeItem("cart");
-
-    window.location.href =
-        "https://sandbox.payfast.co.za/eng/process?" +
-        "merchant_id=10043743&merchant_key=7t8eg1prjfj0m" +
-        "&amount=" + total +
-        "&item_name=ClinchGlow%20Order" +
-        "&return_url=" + encodeURIComponent(window.location.origin + "/success.html") +
-        "&cancel_url=" + encodeURIComponent(window.location.origin + "/store.html");
+    
+    const total = cart.reduce((a, b) => a + Number(b.price * (b.quantity || 1)), 0).toFixed(2);
+    
+    // LIVE PAYFAST CREDENTIALS
+    const merchant_id = "33080383";
+    const merchant_key = "9jj65x9fkmy34"
+    
+    // LIVE PAYFAST URL
+    const base = "https://www.payfast.co.za/eng/process";
+    
+    // Build PayFast parameters
+    const params = new URLSearchParams({
+        merchant_id: merchant_id,
+        merchant_key: merchant_key,
+        amount: total,
+        item_name: `Clinch Glow Order - ${cart.length} items`,
+        return_url: window.location.origin + "/success.html",
+        cancel_url: window.location.origin + "/cart.html",
+        email_address: "", // Customer will enter on PayFast
+        cell_number: "" // Customer will enter on PayFast
+    });
+    
+    // Save order info before redirecting
+    localStorage.setItem('lastOrderTotal', total);
+    localStorage.removeItem("cart"); // Clear cart
+    
+    // Redirect to REAL PayFast
+    window.location.href = `${base}?${params.toString()}`;
 }
 
 renderCart();
