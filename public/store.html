@@ -5,32 +5,37 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Clinch Glow Store</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+  <link rel="manifest" href="site.webmanifest">
 </head>
 <body class="page-store">
 
   <header class="store-header">
     <div class="store-container header-row">
-      <div>
-        <h1 class="brand">Clinch Glow</h1>
-        <p class="tagline">Luxury perfumes, body lotions, face wash, weaves & more</p>
+      <div style="display:flex; align-items:center; gap:15px;">
+        <!-- Logo Added Here -->
+        <img src="img/logo.jpg" alt="Clinch Glow Logo" style="height:60px; width:60px; border-radius:50%; object-fit:cover;">
+        <div>
+          <h1 class="brand">Clinch Glow</h1>
+          <p class="tagline">Luxury perfumes, body lotions, face wash, weaves & more</p>
+        </div>
       </div>
 
-      <div class="header-actions">
+      <div class="header-actions" id="header-actions">
         <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+        <!-- Admin link will be injected here via store.js if key is correct -->
       </div>
     </div>
   </header>
 
   <main class="store-container">
-    <!-- Filters -->
     <div id="filter-wrap" class="filter-wrap" aria-hidden="false"></div>
-
-    <!-- Product grid -->
     <section id="product-grid" class="product-grid">
       <!-- Products are injected here -->
     </section>
   </main>
+
+  <div id="site-toast" class="toast"></div>
 
   <script src="store.js" defer></script>
 </body>
